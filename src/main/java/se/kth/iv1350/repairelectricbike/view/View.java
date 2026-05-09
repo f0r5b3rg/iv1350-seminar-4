@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import se.kth.iv1350.repairelectricbike.controller.Controller;
+import se.kth.iv1350.repairelectricbike.controller.OperationFailedException;
 import se.kth.iv1350.repairelectricbike.integration.*;
 
 /**
@@ -27,7 +28,7 @@ public class View {
     /**
      * Simulates a user input that generates calls to all system operations.
      */
-    public void sampleExecution() {
+    public void sampleExecution() throws OperationFailedException {
         System.out.println("Sample execution started");
         // Creates test customers to use for sample execution.
         // The test customers are created and then passed to CustomerRegistry to be saved.
@@ -82,6 +83,7 @@ public class View {
         // system searches customer registry for customer details (name and email address),
         // and for details about the customer’s bike (brand, model and serial number).
         CustomerDTO foundCustomer = controller.searchCustomer("0707777777");
+
         System.out.println("\nResult of searching for existing customer by phone number:\n" + foundCustomer + "\n");
 
         // Receptionist asks customer for a description of the problem with the bike.
@@ -131,7 +133,7 @@ public class View {
         String diagnosticResult  = "The bike is definitely broken";
         controller.updateDiagnosticResult(id, diagnosticResult);
         controller.updateState(id, State.READY_FOR_APPROVAL);
-        controller.updateCompletionDate(id, LocalDate.of(2026, 06, 7));
+        controller.updateCompletionDate(id, LocalDate.of(2026, 6, 7));
 
         // Receptionist informs customer about diagnostic report, proposed repair tasks, cost
         // for each proposed repair task, and total cost.
@@ -161,7 +163,6 @@ public class View {
         // System prints repair order. The printout contains all repair order data, including
         // estimation of when reparation will be completed.
        List<RepairOrderDTO> foundRepairOrders = controller.findRepairOrders(State.ACCEPTED);
-       Printer printer = new Printer();
-       printer.printRepairOrder(foundRepairOrders.getFirst());
+       controller.printRepairOrder(foundRepairOrders.getFirst().getId());
     }
 }

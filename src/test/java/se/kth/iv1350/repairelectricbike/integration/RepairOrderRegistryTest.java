@@ -79,7 +79,7 @@ public class RepairOrderRegistryTest {
 
     @Test
     void testUpdateCompletionDate() {
-        LocalDate newDate = LocalDate.of(2026, 04, 29);
+        LocalDate newDate = LocalDate.of(2026, 4, 29);
         int id = repairOrder.getId();
         repairOrderRegistry.updateCompletionDate(id, newDate);
 

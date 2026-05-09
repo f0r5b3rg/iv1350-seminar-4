@@ -3,13 +3,7 @@ package se.kth.iv1350.repairelectricbike.controller;
 import java.time.LocalDate;
 import java.util.List;
 
-import se.kth.iv1350.repairelectricbike.integration.CustomerDTO;
-import se.kth.iv1350.repairelectricbike.integration.CustomerRegistry;
-import se.kth.iv1350.repairelectricbike.integration.Printer;
-import se.kth.iv1350.repairelectricbike.integration.RegistryCreator;
-import se.kth.iv1350.repairelectricbike.integration.RepairOrderDTO;
-import se.kth.iv1350.repairelectricbike.integration.RepairOrderRegistry;
-import se.kth.iv1350.repairelectricbike.integration.State;
+import se.kth.iv1350.repairelectricbike.integration.*;
 import se.kth.iv1350.repairelectricbike.model.RepairOrder;
 
 /**
@@ -42,8 +36,12 @@ public class Controller {
      * @param phoneNumber The phone number of the sought customer.
      * @return            The customer's information.
      */
-    public CustomerDTO searchCustomer(String phoneNumber) {
-        return customerRegistry.searchCustomer(phoneNumber);
+    public CustomerDTO searchCustomer(String phoneNumber) throws OperationFailedException {
+        try {
+            return customerRegistry.searchCustomer(phoneNumber);
+        } catch (CustomerRegistryException e) {
+            throw new OperationFailedException("Could not find customer with phone number: " + phoneNumber, e);
+        }
     }
 
     /**
@@ -53,13 +51,13 @@ public class Controller {
      * @param bikeSerialNo The serial number of the customers bike.
      * @param problemDesc  The description of the problems with the customers bike.
      */
-    public void createRepairOrder(String phoneNumber, String bikeSerialNo, String problemDesc)  {
+    public void createRepairOrder(String phoneNumber, String bikeSerialNo, String problemDesc) throws OperationFailedException {
         CustomerDTO customer = searchCustomer(phoneNumber);
         activeRepairOrder = new RepairOrder(customer, bikeSerialNo, problemDesc);
     }
 
     /**
-     * Saves the active repair order in rthe epair order registry.
+     * Saves the active repair order in the epair order registry.
      */
     public void saveActiveRepairOrder() {
         RepairOrderDTO toSave = activeRepairOrder.convertToDTO();
@@ -76,7 +74,7 @@ public class Controller {
     }
 
     /**
-     * Retrieves all repair orders that match the specifed state.
+     * Retrieves all repair orders that match the specified state.
      *
      * @param state The state of the repair orders.
      * @return      A list of each repair order that is in the sought state.

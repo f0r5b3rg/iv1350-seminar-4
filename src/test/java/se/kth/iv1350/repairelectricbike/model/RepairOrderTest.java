@@ -9,14 +9,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import se.kth.iv1350.repairelectricbike.integration.BikeDTO;
-import se.kth.iv1350.repairelectricbike.integration.CustomerDTO;
-import se.kth.iv1350.repairelectricbike.integration.CustomerRegistry;
-import se.kth.iv1350.repairelectricbike.integration.DiagnosticReportDTO;
-import se.kth.iv1350.repairelectricbike.integration.RegistryCreator;
-import se.kth.iv1350.repairelectricbike.integration.RepairOrderDTO;
-import se.kth.iv1350.repairelectricbike.integration.RepairOrderRegistry;
-import se.kth.iv1350.repairelectricbike.integration.RepairTaskDTO;
+import se.kth.iv1350.repairelectricbike.integration.*;
 
 public class RepairOrderTest {
     private RegistryCreator creator;
@@ -27,7 +20,7 @@ public class RepairOrderTest {
     private RepairOrderRegistry repairOrderRegistry;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws CustomerRegistryException {
         creator = new RegistryCreator();
         bikes = new ArrayList<>(List.of(new BikeDTO("Disktrasa", "Yes", "123Drygt")));
         customerDTO = new CustomerDTO("Frödinge", "ost@kaka.se", "112", bikes);

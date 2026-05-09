@@ -23,6 +23,9 @@ public class CustomerRegistry {
    * @param customer the customer to be added. 
    */
   public void addCustomer(CustomerDTO customer) {
+    if (customer.getPhoneNumber().equals("123")) {
+      throw new DatabaseCannotBeCalledException();
+    }
     this.customers.add(new CustomerData(
             customer.getName(),
             customer.getEmail(),
@@ -36,15 +39,17 @@ public class CustomerRegistry {
    * @param searchedPhoneNumber The phone number that is searched for.
    * @return A customer with the matching phone number if found, else <code>null</code>.
    */
-  public CustomerDTO searchCustomer(String searchedPhoneNumber) {
+  public CustomerDTO searchCustomer(String searchedPhoneNumber) throws CustomerRegistryException {
+    if (searchedPhoneNumber.equals("123")) {
+      throw new DatabaseCannotBeCalledException();
+    }
     for (CustomerData customer : this.customers) {
       if (hasPhoneNumber(searchedPhoneNumber, customer)) {
         return new CustomerDTO(
             customer.name, customer.email, customer.phoneNumber, customer.ownedBikes);
       }
     }
-    System.out.println("Customer not found");
-    return null;
+    throw new CustomerRegistryException("Customer with phone number " + searchedPhoneNumber + " not found.");
   }
 
   private boolean hasPhoneNumber(String phoneNumber, CustomerData customer) {

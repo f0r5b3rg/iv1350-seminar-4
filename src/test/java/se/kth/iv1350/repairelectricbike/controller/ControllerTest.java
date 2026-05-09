@@ -21,7 +21,7 @@ public class ControllerTest {
     private DiagnosticReportDTO diagnosticReport;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws CustomerRegistryException {
         creator = new RegistryCreator();
         controller = new Controller(creator, new Printer());
         repairOrderRegistry = creator.getRepairOrderRegistry();
@@ -49,7 +49,7 @@ public class ControllerTest {
     }
 
     @Test
-    void testAddRepairTask() {
+    void testAddRepairTask() throws OperationFailedException {
         String repairTaskProbDesc = "Problem löst";
         int costToRepair = 6767;
 
@@ -75,7 +75,7 @@ public class ControllerTest {
     }
 
     @Test
-    void testCreateAndSaveActiveRepairOrder() {
+    void testCreateAndSaveActiveRepairOrder() throws OperationFailedException {
         String problemDesc = "För lite öl på styret";
         controller.createRepairOrder(customer.getPhoneNumber(), bikes.get(1).getSerialNo(), problemDesc);
         controller.saveActiveRepairOrder();
@@ -89,7 +89,7 @@ public class ControllerTest {
     }
 
     @Test
-    void testSaveCustomer() {
+    void testSaveCustomer() throws CustomerRegistryException, OperationFailedException {
         List<BikeDTO> bikes = new ArrayList<>(List.of(new BikeDTO("Dalahäst", "Hofors2000", "123gäng456")));
         CustomerDTO customerToSave = new CustomerDTO("Linus Sandin", "sandalen67@hotmail.com", "07696969", bikes);
 
@@ -100,7 +100,7 @@ public class ControllerTest {
     }
 
     @Test
-    void testSearchCustomer() {
+    void testSearchCustomer() throws OperationFailedException {
         CustomerDTO result = controller.searchCustomer("07676767");
         assertEquals(customer, result, "Failed to find customer by phone number.");
     }
@@ -114,7 +114,7 @@ public class ControllerTest {
 
     @Test
     void testUpdateDiagnosticResult() {
-        LocalDate newDate = LocalDate.of(2026, 04, 29);
+        LocalDate newDate = LocalDate.of(2026, 4, 29);
         controller.updateCompletionDate(0, newDate);
 
         assertEquals(newDate, repairOrderRegistry.getRepairOrderDTObyID(0).getDate(), "Failed to update diagnostic result.");
