@@ -1,10 +1,12 @@
 package se.kth.iv1350.repairelectricbike.controller;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
 import se.kth.iv1350.repairelectricbike.integration.*;
 import se.kth.iv1350.repairelectricbike.model.RepairOrder;
+import se.kth.iv1350.repairelectricbike.util.LogHandler;
 
 /**
  * This is the application's only controller class. All calls to the model pass
@@ -14,6 +16,7 @@ public class Controller {
     private CustomerRegistry customerRegistry;
     private RepairOrderRegistry repairOrderRegistry;
     private Printer printer;
+    private LogHandler logger;
 
     // Keeps track of the repair order actively being handled.
     private RepairOrder activeRepairOrder;
@@ -24,10 +27,11 @@ public class Controller {
      * @param regCreator Used to get all classes that handle database calls.
      * @param printer    Interface to printer.
      */
-    public Controller(RegistryCreator regCreator, Printer printer) {
+    public Controller(RegistryCreator regCreator, Printer printer) throws IOException {
         this.customerRegistry = regCreator.getCustomerRegistry();
         this.repairOrderRegistry = regCreator.getRepairOrderRegistry();
         this.printer = printer;
+        this.logger = new LogHandler();
     }
 
     /**
@@ -36,11 +40,12 @@ public class Controller {
      * @param phoneNumber The phone number of the sought customer.
      * @return            The customer's information.
      */
-    public CustomerDTO searchCustomer(String phoneNumber) throws OperationFailedException {
+    public CustomerDTO searchCustomer(String phoneNumber) throws CustomerRegistryException {
         try {
             return customerRegistry.searchCustomer(phoneNumber);
         } catch (CustomerRegistryException e) {
-            throw new OperationFailedException("Could not find customer with phone number: " + phoneNumber, e);
+            logger.logException(e);
+            throw new CustomerRegistryException("Could not find customer with phone number: " + phoneNumber);
         }
     }
 
@@ -51,7 +56,7 @@ public class Controller {
      * @param bikeSerialNo The serial number of the customers bike.
      * @param problemDesc  The description of the problems with the customers bike.
      */
-    public void createRepairOrder(String phoneNumber, String bikeSerialNo, String problemDesc) throws OperationFailedException {
+    public void createRepairOrder(String phoneNumber, String bikeSerialNo, String problemDesc) throws CustomerRegistryException {
         CustomerDTO customer = searchCustomer(phoneNumber);
         activeRepairOrder = new RepairOrder(customer, bikeSerialNo, problemDesc);
     }

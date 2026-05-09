@@ -38,3 +38,6 @@ out/
 # Maven
 pom.xml
 target
+
+# Log file
+repairbike-log.txt

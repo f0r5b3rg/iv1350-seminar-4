@@ -8,6 +8,7 @@ import java.util.List;
 import se.kth.iv1350.repairelectricbike.controller.Controller;
 import se.kth.iv1350.repairelectricbike.controller.OperationFailedException;
 import se.kth.iv1350.repairelectricbike.integration.*;
+import se.kth.iv1350.repairelectricbike.util.LogHandler;
 
 /**
  * This program has no view, instead, this class is a placeholder for the entire
@@ -15,6 +16,7 @@ import se.kth.iv1350.repairelectricbike.integration.*;
  */
 public class View {
     private final Controller controller;
+    private LogHandler logger;
 
     /**
      * Creates a new instance.
@@ -28,7 +30,7 @@ public class View {
     /**
      * Simulates a user input that generates calls to all system operations.
      */
-    public void sampleExecution() throws OperationFailedException {
+    public void sampleExecution() throws CustomerRegistryException {
         System.out.println("Sample execution started");
         // Creates test customers to use for sample execution.
         // The test customers are created and then passed to CustomerRegistry to be saved.

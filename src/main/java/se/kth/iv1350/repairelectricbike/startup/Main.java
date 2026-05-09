@@ -13,13 +13,15 @@ import se.kth.iv1350.repairelectricbike.integration.RegistryCreator;
 
 import se.kth.iv1350.repairelectricbike.view.View;
 
+import java.io.IOException;
+
 public class Main {
     /**
      * Starts the application.
      *
      * @param args The application does not take any command line parameters.
      */
-    public static void main(String[] args) throws CustomerRegistryException, OperationFailedException {
+    public static void main(String[] args) throws IOException, CustomerRegistryException {
         RegistryCreator creator = new RegistryCreator();
         Printer printer = new Printer();
         Controller controller = new Controller(creator, printer);

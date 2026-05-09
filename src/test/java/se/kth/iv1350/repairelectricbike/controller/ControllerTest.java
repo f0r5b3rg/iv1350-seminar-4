@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import se.kth.iv1350.repairelectricbike.integration.*;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class ControllerTest {
     private DiagnosticReportDTO diagnosticReport;
 
     @BeforeEach
-    public void setUp() throws CustomerRegistryException {
+    public void setUp() throws IOException {
         creator = new RegistryCreator();
         controller = new Controller(creator, new Printer());
         repairOrderRegistry = creator.getRepairOrderRegistry();
