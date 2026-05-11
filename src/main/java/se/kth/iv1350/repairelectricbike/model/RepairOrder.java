@@ -1,6 +1,8 @@
 package se.kth.iv1350.repairelectricbike.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import se.kth.iv1350.repairelectricbike.integration.BikeDTO;
 import se.kth.iv1350.repairelectricbike.integration.CustomerDTO;
@@ -21,6 +23,7 @@ public class RepairOrder {
     private LocalDate estimatedCompletionDate;
     private State state;
     private DiagnosticReport diagnosticReport;
+    private List<RepairOrderObserver> repairOrderObservers = new ArrayList<>();
 
     /**
      * Creates a new instance of a repair order.
@@ -37,6 +40,7 @@ public class RepairOrder {
         this.estimatedCompletionDate = null;
         this.state = State.NEWLY_CREATED;
         this.diagnosticReport = new DiagnosticReport();
+        notifyObservers();
     }
 
     /**
@@ -57,6 +61,7 @@ public class RepairOrder {
     public void addRepairTask(String repairTaskDescription, int costToRepair) {
         RepairTaskDTO taskToAdd = new RepairTaskDTO(repairTaskDescription, costToRepair);
         diagnosticReport.addRepairTask(taskToAdd);
+        notifyObservers();
     }
 
     /**
@@ -122,4 +127,17 @@ public class RepairOrder {
         return diagnosticReport;
     }
 
+    public void addRentalObserver(RepairOrderObserver obs) {
+        repairOrderObservers.add(obs);
+    }
+
+    public void addRentalObservers(List<RepairOrderObserver> observers) {
+        repairOrderObservers.addAll(observers);
+    }
+
+    public void notifyObservers() {
+        for (RepairOrderObserver obs: repairOrderObservers) {
+            obs.orderUpdated(this.convertToDTO());
+        }
+    }
 }

@@ -25,6 +25,8 @@ public class View {
      */
     public View(Controller controller) {
         this.controller = controller;
+        controller.addRepairOrderObserver(new RepairOrderView());
+        controller.addRepairOrderObserver(new RepairOrderLogger());
     }
 
     /**

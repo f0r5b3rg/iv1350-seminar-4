@@ -2,10 +2,12 @@ package se.kth.iv1350.repairelectricbike.controller;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import se.kth.iv1350.repairelectricbike.integration.*;
 import se.kth.iv1350.repairelectricbike.model.RepairOrder;
+import se.kth.iv1350.repairelectricbike.model.RepairOrderObserver;
 import se.kth.iv1350.repairelectricbike.util.LogHandler;
 
 /**
@@ -17,6 +19,7 @@ public class Controller {
     private RepairOrderRegistry repairOrderRegistry;
     private Printer printer;
     private LogHandler logger;
+    private List<RepairOrderObserver> repairOrderObservers = new ArrayList<>();
 
     // Keeps track of the repair order actively being handled.
     private RepairOrder activeRepairOrder;
@@ -59,6 +62,7 @@ public class Controller {
     public void createRepairOrder(String phoneNumber, String bikeSerialNo, String problemDesc) throws CustomerRegistryException {
         CustomerDTO customer = searchCustomer(phoneNumber);
         activeRepairOrder = new RepairOrder(customer, bikeSerialNo, problemDesc);
+        activeRepairOrder.addRentalObservers(repairOrderObservers);
     }
 
     /**
@@ -137,5 +141,9 @@ public class Controller {
      */
     public void updateCompletionDate(int repairOrderID, LocalDate estimatedDate) {
         repairOrderRegistry.updateCompletionDate(repairOrderID, estimatedDate);
+    }
+
+    public void addRepairOrderObserver(RepairOrderObserver obs) {
+        repairOrderObservers.add(obs);
     }
 }
