@@ -3,7 +3,6 @@ package se.kth.iv1350.repairelectricbike.startup;
 import se.kth.iv1350.repairelectricbike.view.View;
 import se.kth.iv1350.repairelectricbike.controller.Controller;
 import se.kth.iv1350.repairelectricbike.integration.Printer;
-import se.kth.iv1350.repairelectricbike.integration.RegistryCreator;
 
 /**
  * Contains the <code>main</code> method. Performs all startup of the
@@ -16,10 +15,9 @@ public class Main {
      *
      * @param args The application does not take any command line parameters.
      */
-    public static void main(String[] args) {
-        RegistryCreator creator = new RegistryCreator();
+    static void main(String[] args) {
         Printer printer = new Printer();
-        Controller controller = new Controller(creator, printer);
+        Controller controller = new Controller(printer);
         new View(controller).sampleExecution();
     }
 }

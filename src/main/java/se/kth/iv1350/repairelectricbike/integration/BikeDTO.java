@@ -24,13 +24,6 @@ public final class BikeDTO {
     }
 
     @Override
-    public String toString() {
-        return "brand: " + brand + ", " +
-                "model: " + model + ", " +
-                "serialNo: " + serialNo;
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if(this == obj)
             return true;

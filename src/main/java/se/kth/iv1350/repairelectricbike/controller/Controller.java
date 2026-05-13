@@ -29,9 +29,9 @@ public class Controller {
      * @param regCreator Used to get all classes that handle database calls.
      * @param printer    Interface to printer.
      */
-    public Controller(RegistryCreator regCreator, Printer printer) {
-        this.customerRegistry = regCreator.getCustomerRegistry();
-        this.repairOrderRegistry = regCreator.getRepairOrderRegistry();
+    public Controller(Printer printer) {
+        this.customerRegistry = CustomerRegistry.getCustomerRegistry();
+        this.repairOrderRegistry = RepairOrderRegistry.getRepairOrderRegistry();
         this.printer = printer;
     }
 

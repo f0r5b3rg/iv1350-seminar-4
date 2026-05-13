@@ -1,5 +1,7 @@
 package se.kth.iv1350.repairelectricbike.integration;
 
+import se.kth.iv1350.repairelectricbike.model.Customer;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,13 +10,18 @@ import java.util.List;
  * retrieval by storing customers instead.
  */
 public class CustomerRegistry {
-  private List<CustomerData> customers;
+  public static final CustomerRegistry CUSTOMER_REGISTRY = new CustomerRegistry();
 
+  private List<CustomerData> customers;
   /**
    * Creates a list of customers to represent the customer registry. 
    */
-  public CustomerRegistry() {
+  private CustomerRegistry() {
     this.customers = new ArrayList<>();
+  }
+
+  public static CustomerRegistry getCustomerRegistry() {
+    return CUSTOMER_REGISTRY;
   }
 
   /**
@@ -70,4 +77,3 @@ public class CustomerRegistry {
     }
   }
 }
-
