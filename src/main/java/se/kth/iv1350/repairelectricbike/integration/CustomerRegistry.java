@@ -10,7 +10,7 @@ import java.util.List;
  * retrieval by storing customers instead.
  */
 public class CustomerRegistry {
-  public static final CustomerRegistry CUSTOMER_REGISTRY = new CustomerRegistry();
+  private static final CustomerRegistry CUSTOMER_REGISTRY = new CustomerRegistry();
 
   private List<CustomerData> customers;
   /**
@@ -37,7 +37,8 @@ public class CustomerRegistry {
             customer.getName(),
             customer.getEmail(),
             customer.getPhoneNumber(),
-            customer.getOwnedBikes()));
+            customer.getOwnedBikes(),
+            customer.getNoOfRepairs()));
   }
 
   /**
@@ -53,7 +54,7 @@ public class CustomerRegistry {
     for (CustomerData customer : this.customers) {
       if (hasPhoneNumber(searchedPhoneNumber, customer)) {
         return new CustomerDTO(
-            customer.name, customer.email, customer.phoneNumber, customer.ownedBikes);
+            customer.name, customer.email, customer.phoneNumber, customer.ownedBikes, customer.noOfRepairs);
       }
     }
     throw new CustomerNotFoundException("Customer with phone number " + searchedPhoneNumber + " not found.");
@@ -68,12 +69,14 @@ public class CustomerRegistry {
     private String email;
     private String phoneNumber;
     private List<BikeDTO> ownedBikes;
+    private int noOfRepairs;
 
-    public CustomerData(String name, String email, String phoneNumber, List<BikeDTO> ownedBikes) {
+    public CustomerData(String name, String email, String phoneNumber, List<BikeDTO> ownedBikes, int noOfRepairs) {
       this.name = name;
       this.email = email;
       this.phoneNumber = phoneNumber;
       this.ownedBikes = ownedBikes;
+      this.noOfRepairs = noOfRepairs;
     }
   }
 }

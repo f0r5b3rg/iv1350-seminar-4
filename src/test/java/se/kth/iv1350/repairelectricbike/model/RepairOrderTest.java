@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import se.kth.iv1350.repairelectricbike.integration.*;
 
 public class RepairOrderTest {
-    private RegistryCreator creator;
     private CustomerDTO customerDTO;
     private RepairOrder repairOrder;
     private List<BikeDTO> bikes;
@@ -21,14 +20,13 @@ public class RepairOrderTest {
 
     @BeforeEach
     public void setUp() {
-        creator = new RegistryCreator();
         bikes = new ArrayList<>(List.of(new BikeDTO("Disktrasa", "Yes", "123Drygt")));
-        customerDTO = new CustomerDTO("Frödinge", "ost@kaka.se", "112", bikes);
+        customerDTO = new CustomerDTO("Frödinge", "ost@kaka.se", "112", bikes, 0);
 
         repairOrder = new RepairOrder(customerDTO, "123Drygt", "Bell is broken");
 
-        CustomerRegistry customerRegistry = creator.getCustomerRegistry();
-        repairOrderRegistry = creator.getRepairOrderRegistry();
+        CustomerRegistry customerRegistry = CustomerRegistry.getCustomerRegistry();
+        repairOrderRegistry = RepairOrderRegistry.getRepairOrderRegistry();
 
         customerRegistry.addCustomer(customerDTO);
         repairOrderRegistry.addRepairOrder(repairOrder.convertToDTO());
@@ -36,7 +34,6 @@ public class RepairOrderTest {
 
     @AfterEach
     public void tearDown() {
-        creator = null;
         customerDTO = null;
         repairOrder = null;
         bikes = null;

@@ -100,7 +100,7 @@ public class Controller {
      * @param repairTaskDescription Description of the new repairTask.
      * @param costToRepair          The cost of the new repairTask.
      */
-    public void addRepairTask(String repairTaskDescription, int costToRepair) {
+    public void addRepairTask(String repairTaskDescription, double costToRepair) {
         activeRepairOrder.addRepairTask(repairTaskDescription, costToRepair);
         saveActiveRepairOrder();
     }

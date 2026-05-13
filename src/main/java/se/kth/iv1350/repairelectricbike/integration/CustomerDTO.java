@@ -11,6 +11,7 @@ public class CustomerDTO {
     private final String email;
     private final String phoneNumber;
     private final List<BikeDTO> ownedBikes;
+    private final int repairsPerformed;
 
     /**
      * Creates a new instance representing a customer.
@@ -20,11 +21,12 @@ public class CustomerDTO {
      * @param phoneNumber The customer's phone number.
      * @param ownedBikes  The customer's bikes.
      */
-    public CustomerDTO(String name, String email, String phoneNumber, List<BikeDTO> ownedBikes) {
+    public CustomerDTO(String name, String email, String phoneNumber, List<BikeDTO> ownedBikes, int repairsPerformed) {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.ownedBikes = ownedBikes;
+        this.repairsPerformed = repairsPerformed;
     }
 
     @Override
@@ -82,5 +84,9 @@ public class CustomerDTO {
      */
     public List<BikeDTO> getOwnedBikes() {
         return ownedBikes;
+    }
+
+    public int getNoOfRepairs(){
+        return repairsPerformed;
     }
 }

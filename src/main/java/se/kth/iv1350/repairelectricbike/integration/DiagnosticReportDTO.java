@@ -10,7 +10,7 @@ import java.util.Objects;
 public class DiagnosticReportDTO {
     private final String diagnosticResult;
     private final List<RepairTaskDTO> repairTasks;
-    private final int totalCost;
+    private final double totalCost;
 
     /**
      * Creates a new instance of a diagnostic report DTO.
@@ -19,7 +19,7 @@ public class DiagnosticReportDTO {
      * @param repairTasks      Repair tasks as specified by technician.
      * @param totalCost        Total cost of all repair tasks.
      */
-    public DiagnosticReportDTO(String diagnosticResult, List<RepairTaskDTO> repairTasks, int totalCost) {
+    public DiagnosticReportDTO(String diagnosticResult, List<RepairTaskDTO> repairTasks, double totalCost) {
         this.diagnosticResult = diagnosticResult;
         this.repairTasks = (repairTasks != null) ? new ArrayList<>(repairTasks): new ArrayList<>();
         this.totalCost = totalCost;
@@ -60,7 +60,7 @@ public class DiagnosticReportDTO {
      * 
      * @return the total cost of all repair tasks.
      */
-    public int getTotalCost() {
+    public double getTotalCost() {
         return this.totalCost;
     }
 }

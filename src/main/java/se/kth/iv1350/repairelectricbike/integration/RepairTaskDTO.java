@@ -7,7 +7,7 @@ import java.util.Objects;
  */
 public class RepairTaskDTO {
     private final String repairTaskDescription;
-    private final int costToRepair;
+    private final double costToRepair;
 
     /**
      * Creates a new instance of a repair task.
@@ -15,7 +15,7 @@ public class RepairTaskDTO {
      * @param repairTaskDescription The description of a repair task.
      * @param costToRepair          The cost for a repair task.
      */
-    public RepairTaskDTO(String repairTaskDescription, int costToRepair) {
+    public RepairTaskDTO(String repairTaskDescription, double costToRepair) {
         this.repairTaskDescription = repairTaskDescription;
         this.costToRepair = costToRepair;
     }
@@ -45,7 +45,7 @@ public class RepairTaskDTO {
      * 
      * @return  the value of cost to repair.
      */
-    public int getCostToRepair() {
+    public double getCostToRepair() {
         return costToRepair;
     }
 }

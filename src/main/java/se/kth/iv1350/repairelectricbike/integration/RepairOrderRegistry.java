@@ -9,7 +9,7 @@ import java.util.List;
   Currently simulates database retrieval by storing repair orders instead.
  */
 public class RepairOrderRegistry {
-    public static final RepairOrderRegistry REPAIR_ORDER_REGISTRY = new RepairOrderRegistry();
+    private static final RepairOrderRegistry REPAIR_ORDER_REGISTRY = new RepairOrderRegistry();
     private static int repairOrderCount;
     private List<RepairOrderData> repairOrders;
 

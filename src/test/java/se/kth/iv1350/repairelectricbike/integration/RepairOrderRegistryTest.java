@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RepairOrderRegistryTest {
-    private RegistryCreator creator;
     private RepairOrderRegistry repairOrderRegistry;
     private CustomerDTO customer;
     private RepairOrderDTO repairOrder; 
@@ -22,13 +21,12 @@ public class RepairOrderRegistryTest {
     @BeforeEach
     public void setUp() {
         RepairOrderRegistry.setRepairOrderCount(0);
-        creator = new RegistryCreator();
         bikes = new ArrayList<>(List.of(new BikeDTO("Disktrasa", "Yes", "123Drygt")));
-        customer = new CustomerDTO("Frödinge", "ost@kaka.se", "112", bikes);
+        customer = new CustomerDTO("Frödinge", "ost@kaka.se", "112", bikes, 0);
         repairOrder = new RepairOrder(customer, "123Drygt", "Bell is broken").convertToDTO();
 
-        CustomerRegistry customerRegistry = creator.getCustomerRegistry();
-        repairOrderRegistry = creator.getRepairOrderRegistry();
+        CustomerRegistry customerRegistry = CustomerRegistry.getCustomerRegistry();
+        repairOrderRegistry = RepairOrderRegistry.getRepairOrderRegistry();
 
         customerRegistry.addCustomer(customer);
         repairOrderRegistry.addRepairOrder(repairOrder);
@@ -37,7 +35,6 @@ public class RepairOrderRegistryTest {
     @AfterEach
     public void tearDown() {
         RepairOrderRegistry.setRepairOrderCount(0);
-        creator = null;
         customer = null;
         repairOrder = null;
         bikes = null;
@@ -49,7 +46,6 @@ public class RepairOrderRegistryTest {
         RepairOrderDTO newRepairOrder = new RepairOrder(customer, "123Drygt", "Bell is broken again").convertToDTO();
         repairOrderRegistry.addRepairOrder(newRepairOrder);
         List<RepairOrderDTO> repairOrders = repairOrderRegistry.findRepairOrders(State.NEWLY_CREATED);
-        
         assertEquals(2, repairOrders.size(), "Failed to add repair order.");
         boolean result = repairOrder.equals(repairOrders.getFirst());
         assertTrue(result, "Failed to add repair order.");
@@ -76,4 +72,5 @@ public class RepairOrderRegistryTest {
 
         assertTrue(result, "Failed to retrieve repair order DTO by id.");
     }
+
 }

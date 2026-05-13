@@ -11,23 +11,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class CustomerRegistryTest {
-    private RegistryCreator creator;
     private CustomerRegistry customerRegistry;
     private CustomerDTO customer;
     private List<BikeDTO> bikes;
 
     @BeforeEach
     public void setUp()  {
-        creator = new RegistryCreator();
         bikes = new ArrayList<>(List.of(new BikeDTO("Disktrasa", "Yes", "123Drygt")));
-        customer = new CustomerDTO("Frödinge", "ost@kaka.se", "112", bikes);
-        customerRegistry = creator.getCustomerRegistry();
+        customer = new CustomerDTO("Frödinge", "ost@kaka.se", "112", bikes, 0);
+        customerRegistry = CustomerRegistry.getCustomerRegistry();
         customerRegistry.addCustomer(customer);
     }
 
     @AfterEach
     public void tearDown() {
-        creator = null;
         customer = null;
         bikes = null;
         customerRegistry = null;

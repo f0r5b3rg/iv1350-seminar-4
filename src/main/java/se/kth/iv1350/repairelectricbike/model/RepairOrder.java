@@ -67,7 +67,7 @@ public class RepairOrder {
      * @param repairTaskDescription     A description of the repair task that needs to be performed.
      * @param costToRepair              The cost to perform the repair task.
      */
-    public void addRepairTask(String repairTaskDescription, int costToRepair) {
+    public void addRepairTask(String repairTaskDescription, double costToRepair) {
         RepairTaskDTO taskToAdd = new RepairTaskDTO(repairTaskDescription, costToRepair);
         diagnosticReport.addRepairTask(taskToAdd);
         notifyObservers();

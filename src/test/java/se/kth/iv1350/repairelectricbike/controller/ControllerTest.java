@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import se.kth.iv1350.repairelectricbike.integration.*;
+import se.kth.iv1350.repairelectricbike.model.Customer;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -13,7 +14,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ControllerTest {
-    private RegistryCreator creator;
     private RepairOrderRegistry repairOrderRegistry;
     private Controller controller;
     private List<BikeDTO> bikes;
@@ -23,15 +23,14 @@ public class ControllerTest {
 
     @BeforeEach
     public void setUp() throws IOException {
-        creator = new RegistryCreator();
-        controller = new Controller(creator, new Printer());
-        repairOrderRegistry = creator.getRepairOrderRegistry();
+        controller = new Controller(new Printer());
+        repairOrderRegistry = RepairOrderRegistry.getRepairOrderRegistry();
 
         BikeDTO testBike1 = new BikeDTO("SixSeven", "GenAlpha", "67WC69");
         BikeDTO testBike2 = new BikeDTO("SixNine", "GenBeta", "0");
         bikes = new ArrayList<>(List.of(testBike1, testBike2));
-        customer = new CustomerDTO("Douglas Andersson", "Doggelito1337@gmail.com", "07676767", bikes);
-        creator.getCustomerRegistry().addCustomer(customer);
+        customer = new CustomerDTO("Douglas Andersson", "Doggelito1337@gmail.com", "07676767", bikes, 0);
+        CustomerRegistry.getCustomerRegistry().addCustomer(customer);
         RepairOrderRegistry.setRepairOrderCount(0);
 
         diagnosticReport = new DiagnosticReportDTO(null, null, 0);
@@ -42,7 +41,7 @@ public class ControllerTest {
 
     @AfterEach
     public void tearDown() {
-        creator = null;
+        repairOrderRegistry = null;
         controller = null;
         bikes = null;
         customer = null;
@@ -85,6 +84,8 @@ public class ControllerTest {
         List<RepairOrderDTO> repairOrders = controller.findRepairOrders(State.NEWLY_CREATED);
         RepairOrderDTO result = repairOrders.getLast();
 
+        System.out.println(RepairOrderRegistry.getRepairOrderCount());
+
         RepairOrderDTO expected = new RepairOrderDTO(1, customer, bikes.get(1), problemDesc, null, State.NEWLY_CREATED, new DiagnosticReportDTO("", new ArrayList<RepairTaskDTO>(), 0));
 
         assertEquals(expected, result, "Failed to create and save active repair order.");
@@ -105,7 +106,7 @@ public class ControllerTest {
     @Test
     void testSaveCustomer() throws CustomerNotFoundException {
         List<BikeDTO> bikes = new ArrayList<>(List.of(new BikeDTO("Dalahäst", "Hofors2000", "123gäng456")));
-        CustomerDTO customerToSave = new CustomerDTO("Linus Sandin", "sandalen67@hotmail.com", "07696969", bikes);
+        CustomerDTO customerToSave = new CustomerDTO("Linus Sandin", "sandalen67@hotmail.com", "07696969", bikes, 0);
 
         controller.saveCustomer(customerToSave);
         CustomerDTO result = controller.searchCustomer("07696969");

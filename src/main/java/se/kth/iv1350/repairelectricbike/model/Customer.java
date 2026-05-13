@@ -30,7 +30,7 @@ public class Customer {
     }
 
     /**
-     * Get the customer's informaiton
+     * Get the customer's information
      * 
      * @return  the value of a CustomerDTO. 
      */

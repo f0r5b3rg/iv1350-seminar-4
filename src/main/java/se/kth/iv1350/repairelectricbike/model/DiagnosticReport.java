@@ -12,7 +12,7 @@ import se.kth.iv1350.repairelectricbike.integration.RepairTaskDTO;
 public class DiagnosticReport {
     private String diagnosticResult;
     private List<RepairTaskDTO> repairTasks;
-    private int totalCost;
+    private double totalCost;
 
     DiagnosticReport() {
         this.diagnosticResult = "";
@@ -74,7 +74,7 @@ public class DiagnosticReport {
      *
      * @return the total cost.
      */
-    public int getTotalCost() {
+    public double getTotalCost() {
         return totalCost;
     }
 
