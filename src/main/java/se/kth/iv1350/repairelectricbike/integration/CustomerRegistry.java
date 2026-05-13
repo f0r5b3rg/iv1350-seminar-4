@@ -39,7 +39,7 @@ public class CustomerRegistry {
    * @param searchedPhoneNumber The phone number that is searched for.
    * @return A customer with the matching phone number if found, else <code>null</code>.
    */
-  public CustomerDTO searchCustomer(String searchedPhoneNumber) throws CustomerRegistryException {
+  public CustomerDTO searchCustomer(String searchedPhoneNumber) throws CustomerNotFoundException {
     if (searchedPhoneNumber.equals("123")) {
       throw new DatabaseCannotBeCalledException();
     }
@@ -49,7 +49,7 @@ public class CustomerRegistry {
             customer.name, customer.email, customer.phoneNumber, customer.ownedBikes);
       }
     }
-    throw new CustomerRegistryException("Customer with phone number " + searchedPhoneNumber + " not found.");
+    throw new CustomerNotFoundException("Customer with phone number " + searchedPhoneNumber + " not found.");
   }
 
   private boolean hasPhoneNumber(String phoneNumber, CustomerData customer) {

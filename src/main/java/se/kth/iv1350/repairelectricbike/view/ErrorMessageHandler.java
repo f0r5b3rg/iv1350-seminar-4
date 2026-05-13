@@ -26,49 +26,28 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package se.kth.iv1350.repairelectricbike.util;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+package se.kth.iv1350.repairelectricbike.view;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
 /**
- * This class is responsible for the log.
+ * This class is responsible for showing error messages to the user.
  */
-public class LogHandler {
-    private static final String LOG_FILE_NAME = "repairbike-log.txt";
-    private static final LogHandler INSTANCE = new LogHandler();
-    private PrintWriter logFile;
-
-    public static LogHandler getLogger() {
-        return INSTANCE;
-    }
-
-    public LogHandler() {
-        try {
-            logFile = new PrintWriter(new FileWriter(LOG_FILE_NAME, true), true);
-        } catch (IOException ex) {
-            System.out.println("Could not create logger.");
-            ex.printStackTrace();
-        }
-    }
+class ErrorMessageHandler {
 
     /**
-     * Writes a log entry describing a thrown exception.
+     * Displays the specified error message.
      *
-     * @param exception The exception that shall be logged.
+     * @param msg The error message.
      */
-    public void logException(Exception exception) {
-        StringBuilder logMsgBuilder = new StringBuilder();
-        logMsgBuilder.append(createTime());
-        logMsgBuilder.append(", Exception was thrown: ");
-        logMsgBuilder.append(exception.getMessage());
-        logFile.println(logMsgBuilder);
-        exception.printStackTrace(logFile);
-        logFile.println("\n");
+    void showErrorMsg(String msg) {
+        String errorMsgBuilder = createTime() +
+                ", ERROR: " +
+                msg;
+        System.out.println(errorMsgBuilder);
     }
 
     private String createTime() {

@@ -30,7 +30,7 @@ public class Printer {
 
         appendLine(builder, "Repair order information: ");
 
-        builder.append(repairOrderToPrint);
+        builder.append(repairOrderToPrint.getId());
         endSection(builder);
         endSection(builder);
         appendLine(builder, "----------------------");

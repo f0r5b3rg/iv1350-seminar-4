@@ -20,7 +20,7 @@ public class RepairOrderTest {
     private RepairOrderRegistry repairOrderRegistry;
 
     @BeforeEach
-    public void setUp() throws CustomerRegistryException {
+    public void setUp() {
         creator = new RegistryCreator();
         bikes = new ArrayList<>(List.of(new BikeDTO("Disktrasa", "Yes", "123Drygt")));
         customerDTO = new CustomerDTO("Frödinge", "ost@kaka.se", "112", bikes);

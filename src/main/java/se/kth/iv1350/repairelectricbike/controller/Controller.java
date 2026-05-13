@@ -30,7 +30,7 @@ public class Controller {
      * @param regCreator Used to get all classes that handle database calls.
      * @param printer    Interface to printer.
      */
-    public Controller(RegistryCreator regCreator, Printer printer) throws IOException {
+    public Controller(RegistryCreator regCreator, Printer printer) {
         this.customerRegistry = regCreator.getCustomerRegistry();
         this.repairOrderRegistry = regCreator.getRepairOrderRegistry();
         this.printer = printer;
@@ -43,12 +43,11 @@ public class Controller {
      * @param phoneNumber The phone number of the sought customer.
      * @return            The customer's information.
      */
-    public CustomerDTO searchCustomer(String phoneNumber) throws CustomerRegistryException {
+    public CustomerDTO searchCustomer(String phoneNumber) throws CustomerNotFoundException {
         try {
             return customerRegistry.searchCustomer(phoneNumber);
-        } catch (CustomerRegistryException e) {
-            logger.logException(e);
-            throw new CustomerRegistryException("Could not find customer with phone number: " + phoneNumber);
+        } catch (CustomerNotFoundException e) {
+            throw new CustomerNotFoundException("Could not find customer with phone number: " + phoneNumber);
         }
     }
 
@@ -59,7 +58,7 @@ public class Controller {
      * @param bikeSerialNo The serial number of the customers bike.
      * @param problemDesc  The description of the problems with the customers bike.
      */
-    public void createRepairOrder(String phoneNumber, String bikeSerialNo, String problemDesc) throws CustomerRegistryException {
+    public void createRepairOrder(String phoneNumber, String bikeSerialNo, String problemDesc) throws CustomerNotFoundException {
         CustomerDTO customer = searchCustomer(phoneNumber);
         activeRepairOrder = new RepairOrder(customer, bikeSerialNo, problemDesc);
         activeRepairOrder.addRepairOrderObservers(repairOrderObservers);

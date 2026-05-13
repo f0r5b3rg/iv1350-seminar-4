@@ -34,7 +34,7 @@ public class CustomerRegistryTest {
     }
 
     @Test
-    void testAddCustomer() throws CustomerRegistryException {
+    void testAddCustomer() throws CustomerNotFoundException {
         customerRegistry.addCustomer(customer);
 
         boolean result = customer.equals(customerRegistry.searchCustomer(customer.getPhoneNumber()));
@@ -42,7 +42,7 @@ public class CustomerRegistryTest {
     }
 
     @Test
-    void testSearchCustomerFound() throws CustomerRegistryException {
+    void testSearchCustomerFound() throws CustomerNotFoundException {
         boolean result = customer.equals(customerRegistry.searchCustomer(customer.getPhoneNumber()));
 
         assertTrue(result, "Failed to find customer by phone number.");
@@ -54,8 +54,21 @@ public class CustomerRegistryTest {
         try {
             customerRegistry.searchCustomer(wrongPhoneNumber);
             fail("Nonexisting customer was found.");
-        } catch (CustomerRegistryException e) {
+        } catch (CustomerNotFoundException e) {
             assertTrue(e.getMessage().contains(wrongPhoneNumber), "Wrong exception message, does not contain specified phone number: " + e.getMessage());
+        }
+    }
+
+    @Test
+    void testFailedDatabaseCall() {
+        String hardcodedDataBaseFailureNumber = "123";
+        try {
+            customerRegistry.searchCustomer(hardcodedDataBaseFailureNumber);
+            fail("Nonexisting customer was found.");
+        } catch (CustomerNotFoundException e) {
+            fail("Wrong exception was thrown: " + e);
+        } catch (DatabaseCannotBeCalledException e) {
+            assertTrue(e.getMessage().contains("Database cannot be called."));
         }
     }
 }

@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ControllerTest {
     private RegistryCreator creator;
@@ -50,7 +50,7 @@ public class ControllerTest {
     }
 
     @Test
-    void testAddRepairTask() throws CustomerRegistryException {
+    void testAddRepairTask() throws CustomerNotFoundException {
         String repairTaskProbDesc = "Problem löst";
         int costToRepair = 6767;
 
@@ -76,7 +76,7 @@ public class ControllerTest {
     }
 
     @Test
-    void testCreateAndSaveActiveRepairOrder() throws CustomerRegistryException {
+    void testCreateAndSaveActiveRepairOrder() throws CustomerNotFoundException {
         String problemDesc = "För lite öl på styret";
         controller.createRepairOrder(customer.getPhoneNumber(), bikes.get(1).getSerialNo(), problemDesc);
         controller.saveActiveRepairOrder();
@@ -90,7 +90,19 @@ public class ControllerTest {
     }
 
     @Test
-    void testSaveCustomer() throws CustomerRegistryException {
+    void testCreateRepairOrderCustomerNotFound() {
+        try {
+            String problemDesc = "test problem description";
+            controller.createRepairOrder("07", bikes.get(1).getSerialNo(), problemDesc);
+        } catch (CustomerNotFoundException e) {
+            assertTrue(e.getMessage().contains("Could not find customer with phone number: 07"));
+        } catch (Exception e) {
+            fail("Wrong exception thrown.");
+        }
+    }
+
+    @Test
+    void testSaveCustomer() throws CustomerNotFoundException {
         List<BikeDTO> bikes = new ArrayList<>(List.of(new BikeDTO("Dalahäst", "Hofors2000", "123gäng456")));
         CustomerDTO customerToSave = new CustomerDTO("Linus Sandin", "sandalen67@hotmail.com", "07696969", bikes);
 
@@ -101,9 +113,21 @@ public class ControllerTest {
     }
 
     @Test
-    void testSearchCustomer() throws CustomerRegistryException {
+    void testSearchCustomer() throws CustomerNotFoundException {
         CustomerDTO result = controller.searchCustomer("07676767");
         assertEquals(customer, result, "Failed to find customer by phone number.");
+    }
+
+    @Test
+    void testSearchCustomerNotFound() {
+        try {
+            controller.searchCustomer("007");
+            fail("Customer not present in database found.");
+        } catch (CustomerNotFoundException e) {
+            assertTrue(e.getMessage().contains("Could not find customer with phone number: 007"));
+        } catch (Exception e) {
+            fail("Wrong exception thrown.");
+        }
     }
 
     @Test
