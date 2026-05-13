@@ -1,7 +1,5 @@
 package se.kth.iv1350.repairelectricbike.integration;
 
-import se.kth.iv1350.repairelectricbike.model.Customer;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -15,7 +15,7 @@ public class Main {
      *
      * @param args The application does not take any command line parameters.
      */
-    static void main(String[] args) {
+    public static void main(String[] args) {
         Printer printer = new Printer();
         Controller controller = new Controller(printer);
         new View(controller).sampleExecution();

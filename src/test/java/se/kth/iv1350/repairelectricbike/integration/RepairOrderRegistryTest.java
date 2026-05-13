@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import se.kth.iv1350.repairelectricbike.model.RepairOrder;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 

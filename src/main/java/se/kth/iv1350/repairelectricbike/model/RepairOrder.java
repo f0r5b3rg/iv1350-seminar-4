@@ -24,7 +24,6 @@ public class RepairOrder {
     private State state;
     private DiagnosticReport diagnosticReport;
     private List<RepairOrderObserver> repairOrderObservers = new ArrayList<>();
-    private DiscountStrategy discountStrategy;
 
     /**
      * Creates a new instance of a repair order.

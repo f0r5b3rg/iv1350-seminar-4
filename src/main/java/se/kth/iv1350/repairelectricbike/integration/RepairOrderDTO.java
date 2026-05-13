@@ -1,7 +1,6 @@
 package se.kth.iv1350.repairelectricbike.integration;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Objects;
 
 /**

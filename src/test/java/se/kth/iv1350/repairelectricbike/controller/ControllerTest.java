@@ -4,7 +4,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import se.kth.iv1350.repairelectricbike.integration.*;
-import se.kth.iv1350.repairelectricbike.model.Customer;
 
 import java.io.IOException;
 import java.time.LocalDate;

@@ -1,6 +1,5 @@
 package se.kth.iv1350.repairelectricbike.model;
 
-import se.kth.iv1350.repairelectricbike.integration.BikeDTO;
 import se.kth.iv1350.repairelectricbike.integration.CustomerDTO;
 import se.kth.iv1350.repairelectricbike.integration.RepairOrderDTO;
 

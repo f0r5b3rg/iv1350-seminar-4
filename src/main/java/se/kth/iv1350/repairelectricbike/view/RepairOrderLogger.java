@@ -2,7 +2,6 @@ package se.kth.iv1350.repairelectricbike.view;
 
 import se.kth.iv1350.repairelectricbike.integration.RepairOrderDTO;
 import se.kth.iv1350.repairelectricbike.model.RepairOrderObserver;
-import se.kth.iv1350.repairelectricbike.util.LogHandler;
 
 import java.io.FileWriter;
 import java.io.IOException;

@@ -1,13 +1,11 @@
 package se.kth.iv1350.repairelectricbike.view;
 
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import se.kth.iv1350.repairelectricbike.controller.Controller;
 import se.kth.iv1350.repairelectricbike.integration.*;
-import se.kth.iv1350.repairelectricbike.model.LoyaltyDiscount;
 import se.kth.iv1350.repairelectricbike.util.LogHandler;
 
 /**
@@ -37,7 +35,8 @@ public class View {
         try {
             System.out.println("Sample execution started");
             // Creates test customers to use for sample execution.
-            // The test customers are created and then passed to CustomerRegistry to be saved.
+            // The test customers are created and then passed to CustomerRegistry to be
+            // saved.
 
             // Customer 1 bike setup.
             BikeDTO customer1Bike1 = new BikeDTO("Scott", "Tester", "123test67");
@@ -50,7 +49,8 @@ public class View {
 
             // Create all test customers.
             CustomerDTO customer1 = new CustomerDTO("Test Testsson", "test@test.com", "0707777777", customer1Bikes, 3);
-            CustomerDTO customer2 = new CustomerDTO("Prov Provsdotter", "prov@prov.se", "1231231212", customer2Bikes, 0);
+            CustomerDTO customer2 = new CustomerDTO("Prov Provsdotter", "prov@prov.se", "1231231212", customer2Bikes,
+                    0);
 
             // Save test customers and corresponding new repair order to registries.
             ArrayList<CustomerDTO> testCustomers = new ArrayList<>(List.of(customer1, customer2));
@@ -59,7 +59,8 @@ public class View {
                 controller.saveCustomer(customer);
                 // Creates a repair order and sets it as active repair order.
                 try {
-                    controller.createRepairOrder(customer.getPhoneNumber(), customer.getOwnedBikes().getFirst().getSerialNo(), "Bike inverted");
+                    controller.createRepairOrder(customer.getPhoneNumber(),
+                            customer.getOwnedBikes().getFirst().getSerialNo(), "Bike inverted");
                 } catch (CustomerNotFoundException e) {
                     writeToLogAndConsole("Customer not found in database.", e);
                 }
@@ -74,14 +75,14 @@ public class View {
             controller.updateState(State.DENIED);
             controller.saveActiveRepairOrder();
 
+            // At this point the customer registry and repair order registry contains 5 test
+            // objects.
 
-            // At this point the customer registry and repair order registry contains 5 test objects.
-
-
-            //---------- BASIC FLOW STARTS HERE ----------
+            // ---------- BASIC FLOW STARTS HERE ----------
 
             // Receptionist enters customer’s phone number and
-            // system searches customer registry for customer details (name and email address),
+            // system searches customer registry for customer details (name and email
+            // address),
             // and for details about the customer’s bike (brand, model and serial number).
 
             CustomerDTO foundCustomer = controller.searchCustomer("0707777777");
@@ -89,7 +90,8 @@ public class View {
             System.out.println("\nResult of searching for existing customer by phone number:\n" + foundCustomer + "\n");
 
             // Receptionist asks customer for a description of the problem with the bike.
-            // System creates a repair order containing customer details, bike details, problem description and date.
+            // System creates a repair order containing customer details, bike details,
+            // problem description and date.
             String customerProblemDescription = "The bike has one wheel";
 
             controller.createRepairOrder("0707777777", "123bike123", customerProblemDescription);
@@ -104,7 +106,8 @@ public class View {
                 repairTasks = order.getDiagnosticReport().getRepairTasks();
                 StringBuilder repairTask = new StringBuilder("[");
                 for (RepairTaskDTO task : repairTasks) {
-                    repairTask.append("[").append(task.getRepairTaskDescription()).append(", ").append(task.getCostToRepair()).append("], ");
+                    repairTask.append("[").append(task.getRepairTaskDescription()).append(", ")
+                            .append(task.getCostToRepair()).append("], ");
                 }
                 repairTask.append("]");
                 System.out.printf(
@@ -125,11 +128,12 @@ public class View {
                         repairTask,
                         order.getState(),
                         order.getEstimatedCompletionDate(),
-                        order.getDiagnosticReport().getTotalCost()
-                );
+                        order.getDiagnosticReport().getTotalCost());
             }
-            // Technician performs diagnostic and enters diagnostic report and proposed repair tasks.
-            // System updates repair order, by adding diagnostic report and proposed repair tasks.
+            // Technician performs diagnostic and enters diagnostic report and proposed
+            // repair tasks.
+            // System updates repair order, by adding diagnostic report and proposed repair
+            // tasks.
             controller.addRepairTask("The bike misses a wheel", 999);
             controller.addRepairTask("The chain is rusty", 67);
             String diagnosticResult = "The bike is definitely broken";
@@ -143,37 +147,50 @@ public class View {
             controller.applyWinterDiscount();
             controller.saveActiveRepairOrder();
 
-            // Receptionist informs customer about diagnostic report, proposed repair tasks, cost
+            // Receptionist informs customer about diagnostic report, proposed repair tasks,
+            // cost
             // for each proposed repair task, and total cost.
             List<RepairOrderDTO> updatedRepairOrders = controller.findRepairOrders(State.READY_FOR_APPROVAL);
             System.out.println("The diagnostic report and repair tasks presented to the customer:");
             DiagnosticReportDTO diagnosticReportDTO = updatedRepairOrders.getFirst().getDiagnosticReport();
             StringBuilder repairTask = new StringBuilder("[");
             for (RepairTaskDTO task : diagnosticReportDTO.getRepairTasks()) {
-                repairTask.append("[").append(task.getRepairTaskDescription()).append(", ").append(task.getCostToRepair()).append("], ");
+                repairTask.append("[").append(task.getRepairTaskDescription()).append(", ")
+                        .append(task.getCostToRepair()).append("], ");
             }
             repairTask.append("]");
 
             System.out.printf("""
-                                Diagnostic Result: %s
-                                Repair Tasks: %s
-                                Total cost: %f
-                            """,
+                        Diagnostic Result: %s
+                        Repair Tasks: %s
+                        Total cost: %f
+                    """,
                     diagnosticReportDTO.getDiagnosticResult(),
                     repairTask,
-                    diagnosticReportDTO.getTotalCost()
-            );
-
+                    diagnosticReportDTO.getTotalCost());
 
             // Customer accepts proposed repair tasks and cost.
             // Receptionist registers that customer accepted repair order.
             controller.updateState(State.ACCEPTED);
             controller.saveActiveRepairOrder();
 
-            // System prints repair order. The printout contains all repair order data, including
+            // System prints repair order. The printout contains all repair order data,
+            // including
             // estimation of when reparation will be completed.
             List<RepairOrderDTO> foundRepairOrders = controller.findRepairOrders(State.ACCEPTED);
             controller.printRepairOrder(foundRepairOrders.getFirst().getId());
+
+            // Attempt to call the data base, that are offline with a hardcoded phone number
+            // "123"
+            try {
+                System.out.println("Trying to search customer while database is offline");
+                controller.searchCustomer("123");
+                errorMsgHandler.showErrorMsg("Managed to search database even though it should be offline");
+            } catch (DatabaseCannotBeCalledException e) {
+                errorMsgHandler.showErrorMsg("Database could not be reached as expected\n");
+            } catch (CustomerNotFoundException e) {
+                writeToLogAndConsole("Customer was not found, but expected database offline", e);
+            }
 
             // Attempt to search for a customer that does not exist.
             try {

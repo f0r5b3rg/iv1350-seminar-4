@@ -6,7 +6,6 @@ import java.util.List;
 
 import se.kth.iv1350.repairelectricbike.integration.*;
 import se.kth.iv1350.repairelectricbike.model.*;
-import se.kth.iv1350.repairelectricbike.util.LogHandler;
 
 /**
  * This is the application's only controller class. All calls to the model pass
@@ -16,7 +15,6 @@ public class Controller {
     private CustomerRegistry customerRegistry;
     private RepairOrderRegistry repairOrderRegistry;
     private Printer printer;
-    private LogHandler logger = LogHandler.getLogger();
     private List<RepairOrderObserver> repairOrderObservers = new ArrayList<>();
 
     // Keeps track of the repair order actively being handled.
