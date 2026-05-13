@@ -24,6 +24,7 @@ public class RepairOrder {
     private State state;
     private DiagnosticReport diagnosticReport;
     private List<RepairOrderObserver> repairOrderObservers = new ArrayList<>();
+    private DiscountStrategy discountStrategy;
 
     /**
      * Creates a new instance of a repair order.
@@ -85,6 +86,10 @@ public class RepairOrder {
         this.estimatedCompletionDate = estimatedDate;
     }
 
+    public void applyDiscount(DiscountStrategy strategy) {
+        double discount = strategy.calculateDiscount(this);
+        diagnosticReport.setTotalCost(diagnosticReport.getTotalCost()- discount);
+    }
 
     /**
      * Get the repair order's id.

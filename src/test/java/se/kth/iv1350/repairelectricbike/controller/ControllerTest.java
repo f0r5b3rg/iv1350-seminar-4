@@ -41,7 +41,7 @@ public class ControllerTest {
 
     @AfterEach
     public void tearDown() {
-        repairOrderRegistry = null;
+        repairOrderRegistry.resetForTesting();
         controller = null;
         bikes = null;
         customer = null;

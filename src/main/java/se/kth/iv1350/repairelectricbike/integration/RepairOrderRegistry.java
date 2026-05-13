@@ -103,6 +103,10 @@ public class RepairOrderRegistry {
         return null;
     }
 
+    public void resetForTesting() {
+        repairOrders = new ArrayList<>();
+    }
+
     private class RepairOrderData {
         private int id;
         private CustomerDTO customer;

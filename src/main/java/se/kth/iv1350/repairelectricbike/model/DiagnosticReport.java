@@ -68,6 +68,7 @@ public class DiagnosticReport {
         return repairTasks;
     }
 
+    void setTotalCost(double totalCost) {this.totalCost = totalCost;}
 
     /**
      * Get the total cost of all the repair tasks.

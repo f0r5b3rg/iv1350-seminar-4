@@ -24,6 +24,10 @@ public class CustomerRegistry {
     return CUSTOMER_REGISTRY;
   }
 
+  public void resetForTesting() {
+    customers = new ArrayList<>();
+  }
+
   /**
    * Adds a customer to the customer registry.
    * 

@@ -25,6 +25,7 @@ public class CustomerRegistryTest {
 
     @AfterEach
     public void tearDown() {
+        customerRegistry.resetForTesting();
         customer = null;
         bikes = null;
         customerRegistry = null;
@@ -62,10 +63,10 @@ public class CustomerRegistryTest {
         try {
             customerRegistry.searchCustomer(hardcodedDataBaseFailureNumber);
             fail("Nonexisting customer was found.");
+        } catch (DatabaseCannotBeCalledException e) {
+            assertTrue(e.getMessage().contains("Database could not be called."));
         } catch (CustomerNotFoundException e) {
             fail("Wrong exception was thrown: " + e);
-        } catch (DatabaseCannotBeCalledException e) {
-            assertTrue(e.getMessage().contains("Database cannot be called."));
         }
     }
 }

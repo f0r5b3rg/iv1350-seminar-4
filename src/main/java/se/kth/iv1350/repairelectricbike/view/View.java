@@ -7,6 +7,7 @@ import java.util.List;
 
 import se.kth.iv1350.repairelectricbike.controller.Controller;
 import se.kth.iv1350.repairelectricbike.integration.*;
+import se.kth.iv1350.repairelectricbike.model.LoyaltyDiscount;
 import se.kth.iv1350.repairelectricbike.util.LogHandler;
 
 /**
@@ -48,8 +49,8 @@ public class View {
             List<BikeDTO> customer2Bikes = new ArrayList<>(List.of(customer2Bike1));
 
             // Create all test customers.
-            CustomerDTO customer1 = new CustomerDTO("Test Testsson", "test@test.com", "0707777777", customer1Bikes, 0);
-            CustomerDTO customer2= new CustomerDTO("Prov Provsdotter", "prov@prov.se", "1231231212", customer2Bikes, 0);
+            CustomerDTO customer1 = new CustomerDTO("Test Testsson", "test@test.com", "0707777777", customer1Bikes, 3);
+            CustomerDTO customer2 = new CustomerDTO("Prov Provsdotter", "prov@prov.se", "1231231212", customer2Bikes, 0);
 
             // Save test customers and corresponding new repair order to registries.
             ArrayList<CustomerDTO> testCustomers = new ArrayList<>(List.of(customer1, customer2));
@@ -137,6 +138,11 @@ public class View {
             controller.updateCompletionDate(LocalDate.of(2026, 6, 7));
             controller.saveActiveRepairOrder();
 
+            System.out.println("Apply loyalty and winter discount");
+            controller.applyLoyaltyDiscount();
+            controller.applyWinterDiscount();
+            controller.saveActiveRepairOrder();
+
             // Receptionist informs customer about diagnostic report, proposed repair tasks, cost
             // for each proposed repair task, and total cost.
             List<RepairOrderDTO> updatedRepairOrders = controller.findRepairOrders(State.READY_FOR_APPROVAL);
@@ -157,6 +163,7 @@ public class View {
                     repairTask,
                     diagnosticReportDTO.getTotalCost()
             );
+
 
             // Customer accepts proposed repair tasks and cost.
             // Receptionist registers that customer accepted repair order.

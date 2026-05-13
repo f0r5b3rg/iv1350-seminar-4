@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import se.kth.iv1350.repairelectricbike.integration.*;
-import se.kth.iv1350.repairelectricbike.model.PrintOut;
-import se.kth.iv1350.repairelectricbike.model.RepairOrder;
-import se.kth.iv1350.repairelectricbike.model.RepairOrderObserver;
+import se.kth.iv1350.repairelectricbike.model.*;
 import se.kth.iv1350.repairelectricbike.util.LogHandler;
 
 /**
@@ -124,6 +122,13 @@ public class Controller {
         activeRepairOrder.updateDiagnosticResult(diagnosticResult);
     }
 
+    public void applyLoyaltyDiscount() {
+        activeRepairOrder.applyDiscount(new LoyaltyDiscount());
+    }
+
+    public void applyWinterDiscount() {
+        activeRepairOrder.applyDiscount(new SummerDiscount());
+    }
     /**
      * Finds the repair order and prints it.
      *

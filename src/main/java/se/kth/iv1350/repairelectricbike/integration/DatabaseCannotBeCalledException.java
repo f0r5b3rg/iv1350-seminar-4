@@ -10,6 +10,6 @@ public class DatabaseCannotBeCalledException extends RuntimeException{
      * Creates a new instance of the exception. 
      */
     public DatabaseCannotBeCalledException() {
-        super("Could not connect to the data base");
+        super("Database could not be called.");
     }
 }

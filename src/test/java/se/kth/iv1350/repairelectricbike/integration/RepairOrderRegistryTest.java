@@ -34,6 +34,7 @@ public class RepairOrderRegistryTest {
 
     @AfterEach
     public void tearDown() {
+        repairOrderRegistry.resetForTesting();
         RepairOrderRegistry.setRepairOrderCount(0);
         customer = null;
         repairOrder = null;
