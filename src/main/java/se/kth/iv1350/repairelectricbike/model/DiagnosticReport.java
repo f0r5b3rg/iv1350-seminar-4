@@ -20,6 +20,12 @@ public class DiagnosticReport {
         this.totalCost = 0;
     }
 
+    DiagnosticReport(DiagnosticReportDTO diagnosticReportDTO) {
+        this.diagnosticResult = diagnosticReportDTO.getDiagnosticResult();
+        this.repairTasks = diagnosticReportDTO.getRepairTasks();
+        this.totalCost = diagnosticReportDTO.getTotalCost();
+    }
+
     /**
      * Creates a repair task and adds it to the diagnostic report. Calculates the new total cost of all
      * repair tasks.
@@ -41,6 +47,9 @@ public class DiagnosticReport {
         return new DiagnosticReportDTO(this.diagnosticResult, this.repairTasks, this.totalCost);
     }
 
+    public void setDiagnosticResult(String newDiagnosticResult) {
+        this.diagnosticResult = newDiagnosticResult;
+    }
     /**
      * Get the diagnostic result.
      *

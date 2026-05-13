@@ -37,6 +37,7 @@ public class ControllerTest {
         diagnosticReport = new DiagnosticReportDTO(null, null, 0);
         repairOrder = new RepairOrderDTO(0, customer, bikes.getFirst(), "Hjulet är böjt :(", LocalDate.now(), State.NEWLY_CREATED, diagnosticReport);
         repairOrderRegistry.addRepairOrder(repairOrder);
+        controller.setActiveRepairOrder(0);
     }
 
     @AfterEach
@@ -132,7 +133,8 @@ public class ControllerTest {
 
     @Test
     void testUpdateCompletionDate() {
-        repairOrderRegistry.updateDiagnosticResult(0, "Lol");
+        controller.updateDiagnosticResult("Lol");
+        controller.saveActiveRepairOrder();
 
         assertEquals("Lol", repairOrderRegistry.getRepairOrderDTObyID(0).getDiagnosticReport().getDiagnosticResult(), "Failed to update completion date.");
     }
@@ -140,7 +142,8 @@ public class ControllerTest {
     @Test
     void testUpdateDiagnosticResult() {
         LocalDate newDate = LocalDate.of(2026, 4, 29);
-        controller.updateCompletionDate(0, newDate);
+        controller.updateCompletionDate(newDate);
+        controller.saveActiveRepairOrder();
 
         assertEquals(newDate, repairOrderRegistry.getRepairOrderDTObyID(0).getDate(), "Failed to update diagnostic result.");
     }
@@ -149,7 +152,8 @@ public class ControllerTest {
     void testUpdateState() {
         State newState = State.ACCEPTED;
 
-        controller.updateState(0, newState);
+        controller.updateState(newState);
+        controller.saveActiveRepairOrder();
 
         assertEquals(State.ACCEPTED, repairOrderRegistry.getRepairOrderDTObyID(0).getState(), "Failed to update state.");
     }
