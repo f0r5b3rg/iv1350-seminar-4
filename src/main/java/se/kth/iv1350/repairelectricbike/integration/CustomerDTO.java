@@ -30,14 +30,6 @@ public class CustomerDTO {
     }
 
     @Override
-    public String toString() {
-        return "  Name: " + name + "\n" +
-                "  Email: " + email + "\n" +
-                "  Phone number: " + phoneNumber + "\n" +
-                "  Owned bikes: " + ownedBikes;
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if(this == obj)
             return true;
