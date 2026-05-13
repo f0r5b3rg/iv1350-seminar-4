@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import se.kth.iv1350.repairelectricbike.integration.*;
+import se.kth.iv1350.repairelectricbike.model.PrintOut;
 import se.kth.iv1350.repairelectricbike.model.RepairOrder;
 import se.kth.iv1350.repairelectricbike.model.RepairOrderObserver;
 import se.kth.iv1350.repairelectricbike.util.LogHandler;
@@ -129,7 +130,8 @@ public class Controller {
      */
     public void printRepairOrder(int repairOrderID) {
         RepairOrderDTO repairOrderToPrint = repairOrderRegistry.getRepairOrderDTObyID(repairOrderID);
-        printer.printRepairOrder(repairOrderToPrint);
+        PrintOut printOut = new PrintOut(repairOrderToPrint);
+        printer.printPrintOut(printOut);
     }
 
     /**

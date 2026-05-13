@@ -127,7 +127,7 @@ public class View {
                                     Repair tasks: %s
                                     State: %s
                                     Estimated completion date: %s
-                                    Total cost: %s
+                                    Total cost: %s \n
                                 """,
                         order.getId(),
                         order.getBikeToRepair(),
@@ -162,7 +162,7 @@ public class View {
             System.out.printf("""
                                 Diagnostic Result: %s
                                 Repair Tasks: %s
-                                Total cost: %d
+                                Total cost: %d \n
                             """,
                     diagnosticReportDTO.getDiagnosticResult(),
                     repairTask,
