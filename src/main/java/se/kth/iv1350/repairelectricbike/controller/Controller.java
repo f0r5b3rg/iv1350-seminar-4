@@ -1,6 +1,5 @@
 package se.kth.iv1350.repairelectricbike.controller;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +17,7 @@ public class Controller {
     private CustomerRegistry customerRegistry;
     private RepairOrderRegistry repairOrderRegistry;
     private Printer printer;
-    private LogHandler logger;
+    private LogHandler logger = LogHandler.getLogger();
     private List<RepairOrderObserver> repairOrderObservers = new ArrayList<>();
 
     // Keeps track of the repair order actively being handled.
@@ -34,7 +33,6 @@ public class Controller {
         this.customerRegistry = regCreator.getCustomerRegistry();
         this.repairOrderRegistry = regCreator.getRepairOrderRegistry();
         this.printer = printer;
-        this.logger = new LogHandler();
     }
 
     /**
@@ -64,12 +62,17 @@ public class Controller {
         activeRepairOrder.addRepairOrderObservers(repairOrderObservers);
     }
 
+    public void setActiveRepairOrder(int id) {
+        this.activeRepairOrder = new RepairOrder(repairOrderRegistry.getRepairOrderDTObyID(id));
+    }
+
     /**
      * Saves the active repair order in the epair order registry.
      */
     public void saveActiveRepairOrder() {
         RepairOrderDTO toSave = activeRepairOrder.convertToDTO();
         repairOrderRegistry.addRepairOrder(toSave);
+        activeRepairOrder.notifyObservers();
     }
 
     /**
@@ -105,21 +108,19 @@ public class Controller {
     /**
      * Updates the current state of the repair order.
      *
-     * @param repairOrderID The id of the repair order.
      * @param newState      The new state of the repair order.
      */
-    public void updateState(int repairOrderID, State newState) {
-        repairOrderRegistry.updateState(repairOrderID, newState);
+    public void updateState(State newState) {
+        activeRepairOrder.updateState(newState);
     }
 
     /**
      * Updates the diagnostic report of the repair order.
      *
-     * @param repairOrderID    The id of the repair order.
      * @param diagnosticResult The updated description of the diagnostic report
      */
-    public void updateDiagnosticResult(int repairOrderID, String diagnosticResult) {
-        repairOrderRegistry.updateDiagnosticResult(repairOrderID, diagnosticResult);
+    public void updateDiagnosticResult(String diagnosticResult) {
+        activeRepairOrder.updateDiagnosticResult(diagnosticResult);
     }
 
     /**
@@ -135,11 +136,10 @@ public class Controller {
     /**
      * Updates the estimated completion date of the repair order.
      *
-     * @param repairOrderID The id of the repair order.
      * @param estimatedDate The new estimated completion date of the repair order.
      */
-    public void updateCompletionDate(int repairOrderID, LocalDate estimatedDate) {
-        repairOrderRegistry.updateCompletionDate(repairOrderID, estimatedDate);
+    public void updateCompletionDate(LocalDate estimatedDate) {
+        activeRepairOrder.updateCompletionDate(estimatedDate);
     }
 
     public void addRepairOrderObserver(RepairOrderObserver obs) {
