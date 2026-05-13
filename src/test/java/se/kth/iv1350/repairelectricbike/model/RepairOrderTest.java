@@ -21,7 +21,7 @@ public class RepairOrderTest {
     @BeforeEach
     public void setUp() {
         bikes = new ArrayList<>(List.of(new BikeDTO("Disktrasa", "Yes", "123Drygt")));
-        customerDTO = new CustomerDTO("Frödinge", "ost@kaka.se", "112", bikes, 0);
+        customerDTO = new CustomerDTO("Frödinge", "ost@kaka.se", "112", 0, bikes);
 
         repairOrder = new RepairOrder(customerDTO, "123Drygt", "Bell is broken");
 

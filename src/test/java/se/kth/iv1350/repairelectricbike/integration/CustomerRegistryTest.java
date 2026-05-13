@@ -18,7 +18,7 @@ public class CustomerRegistryTest {
     @BeforeEach
     public void setUp()  {
         bikes = new ArrayList<>(List.of(new BikeDTO("Disktrasa", "Yes", "123Drygt")));
-        customer = new CustomerDTO("Frödinge", "ost@kaka.se", "112", bikes, 0);
+        customer = new CustomerDTO("Frödinge", "ost@kaka.se", "112", 0, bikes);
         customerRegistry = CustomerRegistry.getCustomerRegistry();
         customerRegistry.addCustomer(customer);
     }

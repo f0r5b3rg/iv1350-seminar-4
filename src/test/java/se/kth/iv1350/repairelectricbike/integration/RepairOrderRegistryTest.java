@@ -21,7 +21,7 @@ public class RepairOrderRegistryTest {
     public void setUp() {
         RepairOrderRegistry.setRepairOrderCount(0);
         bikes = new ArrayList<>(List.of(new BikeDTO("Disktrasa", "Yes", "123Drygt")));
-        customer = new CustomerDTO("Frödinge", "ost@kaka.se", "112", bikes, 0);
+        customer = new CustomerDTO("Frödinge", "ost@kaka.se", "112", 0, bikes);
         repairOrder = new RepairOrder(customer, "123Drygt", "Bell is broken").convertToDTO();
 
         CustomerRegistry customerRegistry = CustomerRegistry.getCustomerRegistry();

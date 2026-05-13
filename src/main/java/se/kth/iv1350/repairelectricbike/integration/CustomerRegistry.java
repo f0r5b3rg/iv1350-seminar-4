@@ -56,7 +56,7 @@ public class CustomerRegistry {
     for (CustomerData customer : this.customers) {
       if (hasPhoneNumber(searchedPhoneNumber, customer)) {
         return new CustomerDTO(
-            customer.name, customer.email, customer.phoneNumber, customer.ownedBikes, customer.noOfRepairs);
+            customer.name, customer.email, customer.phoneNumber, customer.noOfRepairs, customer.ownedBikes);
       }
     }
     throw new CustomerNotFoundException("Customer with phone number " + searchedPhoneNumber + " not found.");

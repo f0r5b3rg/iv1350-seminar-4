@@ -48,9 +48,9 @@ public class View {
             List<BikeDTO> customer2Bikes = new ArrayList<>(List.of(customer2Bike1));
 
             // Create all test customers.
-            CustomerDTO customer1 = new CustomerDTO("Test Testsson", "test@test.com", "0707777777", customer1Bikes, 3);
-            CustomerDTO customer2 = new CustomerDTO("Prov Provsdotter", "prov@prov.se", "1231231212", customer2Bikes,
-                    0);
+            CustomerDTO customer1 = new CustomerDTO("Test Testsson", "test@test.com", "0707777777", 3, customer1Bikes);
+            CustomerDTO customer2 = new CustomerDTO("Prov Provsdotter", "prov@prov.se", "1231231212", 0,
+                    customer2Bikes);
 
             // Save test customers and corresponding new repair order to registries.
             ArrayList<CustomerDTO> testCustomers = new ArrayList<>(List.of(customer1, customer2));
@@ -75,74 +75,67 @@ public class View {
             controller.updateState(State.DENIED);
             controller.saveActiveRepairOrder();
 
-            // At this point the customer registry and repair order registry contains 5 test
+            // At this point the customer registry and repair order registry contains 2 test
             // objects.
 
-            // ---------- BASIC FLOW STARTS HERE ----------
+            System.out.println("----------REPAIR ELECTRIC BIKE SCENARIO----------");
 
             // Receptionist enters customer’s phone number and
             // system searches customer registry for customer details (name and email
             // address),
             // and for details about the customer’s bike (brand, model and serial number).
-
             CustomerDTO foundCustomer = controller.searchCustomer("0707777777");
+            System.out.printf("""
+                    Result of searching for existing customer by phone number:
+                    Name: %s
+                    Email: %s
+                    Phone number: %s
+                    Number of repairs: %d
+                    Owned bikes:
+                    """,
+                    foundCustomer.getName().toString(),
+                    foundCustomer.getEmail().toString(),
+                    foundCustomer.getPhoneNumber().toString(),
+                    foundCustomer.getNoOfRepairs(),
+                    foundCustomer.getOwnedBikes());
 
-            System.out.println("\nResult of searching for existing customer by phone number:\n" + foundCustomer + "\n");
+            for (BikeDTO bike : foundCustomer.getOwnedBikes()) {
+                System.out.printf("""
+                            Brand: %s, Model: %s, Serial number: %s
+                        """,
+                        bike.getBrand(),
+                        bike.getModel(),
+                        bike.getSerialNo());
+            }
 
             // Receptionist asks customer for a description of the problem with the bike.
             // System creates a repair order containing customer details, bike details,
             // problem description and date.
             String customerProblemDescription = "The bike has one wheel";
-
             controller.createRepairOrder("0707777777", "123bike123", customerProblemDescription);
+            System.out.println("\nSaving the created repair order to the registry: ");
             controller.saveActiveRepairOrder();
 
             // Technician asks system for repair order and system presents repair order and
             // system presents repair order.
             List<RepairOrderDTO> repairOrders = controller.findRepairOrders(State.NEWLY_CREATED);
-            List<RepairTaskDTO> repairTasks;
-            System.out.println("Result of searching for newly created repair orders:");
-            for (RepairOrderDTO order : repairOrders) {
-                repairTasks = order.getDiagnosticReport().getRepairTasks();
-                StringBuilder repairTask = new StringBuilder("[");
-                for (RepairTaskDTO task : repairTasks) {
-                    repairTask.append("[").append(task.getRepairTaskDescription()).append(", ")
-                            .append(task.getCostToRepair()).append("], ");
-                }
-                repairTask.append("]");
-                System.out.printf(
-                        """
-                                    id: %d
-                                    Bike to repair: %s
-                                    Problem description: %s
-                                    Diagnostic result: %s
-                                    Repair tasks: %s
-                                    State: %s
-                                    Estimated completion date: %s
-                                    Total cost: %s
-                                """,
-                        order.getId(),
-                        order.getBikeToRepair(),
-                        order.getProblemDescription(),
-                        order.getDiagnosticReport().getDiagnosticResult(),
-                        repairTask,
-                        order.getState(),
-                        order.getEstimatedCompletionDate(),
-                        order.getDiagnosticReport().getTotalCost());
-            }
+            RepairOrderDTO repairOrder = repairOrders.getLast();
+            System.out.println("System presents selected repair order:");
+            printRepairOrder(repairOrder);
+
             // Technician performs diagnostic and enters diagnostic report and proposed
             // repair tasks.
             // System updates repair order, by adding diagnostic report and proposed repair
             // tasks.
+            System.out.println("\nTechnician performs a diagonstic of the bike: ");
             controller.addRepairTask("The bike misses a wheel", 999);
             controller.addRepairTask("The chain is rusty", 67);
-            String diagnosticResult = "The bike is definitely broken";
-            controller.updateDiagnosticResult(diagnosticResult);
+            controller.updateDiagnosticResult("The bike is definitely broken");
             controller.updateState(State.READY_FOR_APPROVAL);
             controller.updateCompletionDate(LocalDate.of(2026, 6, 7));
             controller.saveActiveRepairOrder();
 
-            System.out.println("Apply loyalty and winter discount");
+            System.out.println("Apply loyalty and summer discount: ");
             controller.applyLoyaltyDiscount();
             controller.applyWinterDiscount();
             controller.saveActiveRepairOrder();
@@ -151,23 +144,9 @@ public class View {
             // cost
             // for each proposed repair task, and total cost.
             List<RepairOrderDTO> updatedRepairOrders = controller.findRepairOrders(State.READY_FOR_APPROVAL);
-            System.out.println("The diagnostic report and repair tasks presented to the customer:");
-            DiagnosticReportDTO diagnosticReportDTO = updatedRepairOrders.getFirst().getDiagnosticReport();
-            StringBuilder repairTask = new StringBuilder("[");
-            for (RepairTaskDTO task : diagnosticReportDTO.getRepairTasks()) {
-                repairTask.append("[").append(task.getRepairTaskDescription()).append(", ")
-                        .append(task.getCostToRepair()).append("], ");
-            }
-            repairTask.append("]");
-
-            System.out.printf("""
-                        Diagnostic Result: %s
-                        Repair Tasks: %s
-                        Total cost: %f
-                    """,
-                    diagnosticReportDTO.getDiagnosticResult(),
-                    repairTask,
-                    diagnosticReportDTO.getTotalCost());
+            DiagnosticReportDTO diagnosticReport = updatedRepairOrders.getLast().getDiagnosticReport();
+            System.out.println("The diagnostic report and repair tasks presented to the customer: ");
+            printDiagnosticReport(diagnosticReport);
 
             // Customer accepts proposed repair tasks and cost.
             // Receptionist registers that customer accepted repair order.
@@ -210,5 +189,58 @@ public class View {
     private void writeToLogAndConsole(String consoleMsg, Exception exc) {
         errorMsgHandler.showErrorMsg(consoleMsg);
         logger.logException(exc);
+    }
+
+    private void printRepairOrder(RepairOrderDTO repairOrder) {
+        System.out.printf("""
+                ID: %s
+                Bike to repair:
+                    Brand: %s
+                    Model: %s
+                    Serial number: %s
+                Problem description: %s
+                State: %s
+                Estimated completion date: %s
+                Diagnostic Report:
+                    Diagonstic result: %s
+                    Total cost: %.1f
+                    Repair tasks:
+                """,
+                repairOrder.getId(),
+                repairOrder.getBikeToRepair().getBrand(),
+                repairOrder.getBikeToRepair().getModel(),
+                repairOrder.getBikeToRepair().getSerialNo(),
+                repairOrder.getProblemDescription(),
+                repairOrder.getState(),
+                repairOrder.getEstimatedCompletionDate(),
+                repairOrder.getDiagnosticReport().getDiagnosticResult(),
+                repairOrder.getDiagnosticReport().getTotalCost());
+
+        for (RepairTaskDTO task : repairOrder.getDiagnosticReport().getRepairTasks()) {
+            System.out.printf("""
+                            Repair task description: %s, Cost to repair: %.1f
+                    """,
+                    task.getRepairTaskDescription(),
+                    task.getCostToRepair());
+        }
+    }
+
+    private void printDiagnosticReport(DiagnosticReportDTO diagnosticReport) {
+        System.out.printf("""
+                Diagnostic Report:
+                    Diagonstic result: %s
+                    Total cost: %.1f
+                    Repair tasks:
+                """,
+                diagnosticReport.getDiagnosticResult(),
+                diagnosticReport.getTotalCost());
+
+        for (RepairTaskDTO task : diagnosticReport.getRepairTasks()) {
+            System.out.printf("""
+                            Repair task description: %s, Cost to repair: %.1f
+                    """,
+                    task.getRepairTaskDescription(),
+                    task.getCostToRepair());
+        }
     }
 }

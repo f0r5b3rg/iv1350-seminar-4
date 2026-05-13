@@ -28,7 +28,7 @@ public class ControllerTest {
         BikeDTO testBike1 = new BikeDTO("SixSeven", "GenAlpha", "67WC69");
         BikeDTO testBike2 = new BikeDTO("SixNine", "GenBeta", "0");
         bikes = new ArrayList<>(List.of(testBike1, testBike2));
-        customer = new CustomerDTO("Douglas Andersson", "Doggelito1337@gmail.com", "07676767", bikes, 0);
+        customer = new CustomerDTO("Douglas Andersson", "Doggelito1337@gmail.com", "07676767", 0, bikes);
         CustomerRegistry.getCustomerRegistry().addCustomer(customer);
         RepairOrderRegistry.setRepairOrderCount(0);
 
@@ -105,7 +105,7 @@ public class ControllerTest {
     @Test
     void testSaveCustomer() throws CustomerNotFoundException {
         List<BikeDTO> bikes = new ArrayList<>(List.of(new BikeDTO("Dalahäst", "Hofors2000", "123gäng456")));
-        CustomerDTO customerToSave = new CustomerDTO("Linus Sandin", "sandalen67@hotmail.com", "07696969", bikes, 0);
+        CustomerDTO customerToSave = new CustomerDTO("Linus Sandin", "sandalen67@hotmail.com", "07696969", 0, bikes);
 
         controller.saveCustomer(customerToSave);
         CustomerDTO result = controller.searchCustomer("07696969");

@@ -22,7 +22,7 @@ public class CustomerTest {
                 new BikeDTO("Audi", "RS6", "Bob5hund3"),
                 new BikeDTO("Citroen", "Kaktus", "Tagg67")));
 
-        CustomerDTO customerDTO = new CustomerDTO("Edward Cullen", "Fork@gmail.com", "0734567", bikes, 0);
+        CustomerDTO customerDTO = new CustomerDTO("Edward Cullen", "Fork@gmail.com", "0734567", 0, bikes);
         customer = new Customer(customerDTO);
     }
 
