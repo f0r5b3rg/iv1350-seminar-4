@@ -62,7 +62,7 @@ public class Controller {
     public void createRepairOrder(String phoneNumber, String bikeSerialNo, String problemDesc) throws CustomerRegistryException {
         CustomerDTO customer = searchCustomer(phoneNumber);
         activeRepairOrder = new RepairOrder(customer, bikeSerialNo, problemDesc);
-        activeRepairOrder.addRentalObservers(repairOrderObservers);
+        activeRepairOrder.addRepairOrderObservers(repairOrderObservers);
     }
 
     /**

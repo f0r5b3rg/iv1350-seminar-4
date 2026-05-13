@@ -131,7 +131,7 @@ public class RepairOrder {
         repairOrderObservers.add(obs);
     }
 
-    public void addRentalObservers(List<RepairOrderObserver> observers) {
+    public void addRepairOrderObservers(List<RepairOrderObserver> observers) {
         repairOrderObservers.addAll(observers);
     }
 
