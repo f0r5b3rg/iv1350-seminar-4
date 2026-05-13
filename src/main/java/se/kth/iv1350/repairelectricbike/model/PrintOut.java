@@ -34,7 +34,7 @@ public class PrintOut {
 
         builder.append(toStringCustomerDTO(repairOrderToPrint.getCustomer()));
         endSection(builder);
-        endSection(builder);
+
 
         appendLine(builder, "Repair order information: ");
 
@@ -88,7 +88,7 @@ public class PrintOut {
 
         builder.append("    Owned bikes:\n");
 
-        for (BikeDTO bike : customerToPrint.getOwnedBikes()) {
+        for (BikeDTO bike: customerToPrint.getOwnedBikes()) {
             builder.append(toStringBikeDTO(bike));
         }
         return builder.toString();

@@ -87,7 +87,7 @@ public class RepairOrder {
 
     public void applyDiscount(DiscountStrategy strategy) {
         double discount = strategy.calculateDiscount(this);
-        diagnosticReport.setTotalCost(diagnosticReport.getTotalCost()- discount);
+        diagnosticReport.setTotalCost(diagnosticReport.getTotalCost() - discount);
     }
 
     /**
