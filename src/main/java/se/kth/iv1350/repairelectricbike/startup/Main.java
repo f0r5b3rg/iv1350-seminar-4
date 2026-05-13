@@ -1,7 +1,6 @@
 package se.kth.iv1350.repairelectricbike.startup;
 
 import se.kth.iv1350.repairelectricbike.controller.Controller;
-import se.kth.iv1350.repairelectricbike.controller.OperationFailedException;
 import se.kth.iv1350.repairelectricbike.integration.CustomerRegistryException;
 import se.kth.iv1350.repairelectricbike.integration.Printer;
 import se.kth.iv1350.repairelectricbike.integration.RegistryCreator;
@@ -12,6 +11,7 @@ import se.kth.iv1350.repairelectricbike.integration.RegistryCreator;
  */
 
 import se.kth.iv1350.repairelectricbike.view.View;
+import se.kth.iv1350.repairelectricbike.view.ViewWithEx;
 
 import java.io.IOException;
 
@@ -25,6 +25,6 @@ public class Main {
         RegistryCreator creator = new RegistryCreator();
         Printer printer = new Printer();
         Controller controller = new Controller(creator, printer);
-        new View(controller).sampleExecution();
+        new ViewWithEx(controller).sampleExecution();
     }
 }

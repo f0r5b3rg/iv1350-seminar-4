@@ -50,7 +50,7 @@ public class ControllerTest {
     }
 
     @Test
-    void testAddRepairTask() throws OperationFailedException {
+    void testAddRepairTask() throws CustomerRegistryException {
         String repairTaskProbDesc = "Problem löst";
         int costToRepair = 6767;
 
@@ -76,7 +76,7 @@ public class ControllerTest {
     }
 
     @Test
-    void testCreateAndSaveActiveRepairOrder() throws OperationFailedException {
+    void testCreateAndSaveActiveRepairOrder() throws CustomerRegistryException {
         String problemDesc = "För lite öl på styret";
         controller.createRepairOrder(customer.getPhoneNumber(), bikes.get(1).getSerialNo(), problemDesc);
         controller.saveActiveRepairOrder();
@@ -90,7 +90,7 @@ public class ControllerTest {
     }
 
     @Test
-    void testSaveCustomer() throws CustomerRegistryException, OperationFailedException {
+    void testSaveCustomer() throws CustomerRegistryException {
         List<BikeDTO> bikes = new ArrayList<>(List.of(new BikeDTO("Dalahäst", "Hofors2000", "123gäng456")));
         CustomerDTO customerToSave = new CustomerDTO("Linus Sandin", "sandalen67@hotmail.com", "07696969", bikes);
 
@@ -101,7 +101,7 @@ public class ControllerTest {
     }
 
     @Test
-    void testSearchCustomer() throws OperationFailedException {
+    void testSearchCustomer() throws CustomerRegistryException {
         CustomerDTO result = controller.searchCustomer("07676767");
         assertEquals(customer, result, "Failed to find customer by phone number.");
     }
