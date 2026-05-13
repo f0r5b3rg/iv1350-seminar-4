@@ -76,29 +76,4 @@ public class RepairOrderRegistryTest {
 
         assertTrue(result, "Failed to retrieve repair order DTO by id.");
     }
-
-    @Test
-    void testUpdateCompletionDate() {
-        LocalDate newDate = LocalDate.of(2026, 4, 29);
-        int id = repairOrder.getId();
-        repairOrderRegistry.updateCompletionDate(id, newDate);
-
-        assertEquals(newDate, repairOrderRegistry.getRepairOrderDTObyID(id).getDate(), "Failed to update completion date.");
-    }
-
-    @Test
-    void testUpdateDiagnosticResult() {
-        String newDiagnosticResult = "Problem solved";
-        repairOrderRegistry.updateDiagnosticResult(0, newDiagnosticResult);
-
-        assertEquals(newDiagnosticResult, repairOrderRegistry.getRepairOrderDTObyID(0).getDiagnosticReport().getDiagnosticResult(), "Failed to update diagnostic result.");
-    }
-
-    @Test
-    void testUpdateState() {
-        State newState = State.ACCEPTED;
-        repairOrderRegistry.updateState(0, newState);
-
-        assertEquals(newState, repairOrderRegistry.getRepairOrderDTObyID(0).getState(), "Failed to update state.");
-    }
 }

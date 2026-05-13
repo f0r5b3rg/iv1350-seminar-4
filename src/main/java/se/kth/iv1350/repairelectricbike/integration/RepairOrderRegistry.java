@@ -9,14 +9,19 @@ import java.util.List;
   Currently simulates database retrieval by storing repair orders instead.
  */
 public class RepairOrderRegistry {
+    public static final RepairOrderRegistry REPAIR_ORDER_REGISTRY = new RepairOrderRegistry();
     private static int repairOrderCount;
     private List<RepairOrderData> repairOrders;
 
     /**
      * Creates a new instance representing the repair order registry.
      */
-    RepairOrderRegistry() {
+    private RepairOrderRegistry() {
         this.repairOrders = new ArrayList<>();
+    }
+
+    public static RepairOrderRegistry getRepairOrderRegistry() {
+        return REPAIR_ORDER_REGISTRY;
     }
 
     /**
@@ -81,18 +86,6 @@ public class RepairOrderRegistry {
     }
 
     /**
-     * Updates the estimated completion date of a reparation
-     * 
-     * @param repairOrderID     The id of the repair order 
-     * @param estimatedDate     The estimated completion date 
-     */
-    public void updateCompletionDate(int repairOrderID, LocalDate estimatedDate) {
-        RepairOrderData repairOrder = repairOrders.get(repairOrderID);
-        if (repairOrder != null)
-            repairOrder.estimatedCompletionDate = estimatedDate;
-    }
-
-    /**
      * Retrieves a repair order from the database with the same id as repairOrderID as
      * a repair order DTO.
      *
@@ -108,35 +101,6 @@ public class RepairOrderRegistry {
                         repairOrder.diagnosticReport);
         }
         return null;
-    }
-
-    /**
-     * Updates the state of a repair order. 
-     * 
-     * @param repairOrderID     The id of the repair order.
-     * @param newState          The new state of the repair order.
-     */
-    public void updateState(int repairOrderID, State newState) {
-        RepairOrderData repairOrder = repairOrders.get(repairOrderID);
-        if (repairOrder != null)
-            repairOrder.state = newState;
-    }
-
-    /**
-     * Update the value of diagnostic result.
-     * 
-     * @param repairOrderID     The id of the repair order.
-     * @param diagnosticResult  The diagnostiv result to be added.
-     */
-    public void updateDiagnosticResult(int repairOrderID, String diagnosticResult) {
-        RepairOrderData repairOrder = repairOrders.get(repairOrderID);
-
-        if (repairOrder != null)
-        {
-            List<RepairTaskDTO> repairTasks = repairOrder.diagnosticReport.getRepairTasks();
-            int totalCost = repairOrder.diagnosticReport.getTotalCost();
-            repairOrder.diagnosticReport = new DiagnosticReportDTO(diagnosticResult, repairTasks, totalCost);
-        }
     }
 
     private class RepairOrderData {

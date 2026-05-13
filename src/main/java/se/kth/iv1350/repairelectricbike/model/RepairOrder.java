@@ -40,7 +40,16 @@ public class RepairOrder {
         this.estimatedCompletionDate = null;
         this.state = State.NEWLY_CREATED;
         this.diagnosticReport = new DiagnosticReport();
-        notifyObservers();
+    }
+
+    public RepairOrder(RepairOrderDTO repairOrderDTO) {
+        this.id = repairOrderDTO.getId();
+        this.customer = new Customer(repairOrderDTO.getCustomer());
+        this.bikeToRepair = this.customer.getBikeFromSerialNo(repairOrderDTO.getBikeToRepair().getSerialNo());
+        this.problemDescription = repairOrderDTO.getProblemDescription();
+        this.estimatedCompletionDate = repairOrderDTO.getEstimatedCompletionDate();
+        this.state = repairOrderDTO.getState();
+        this.diagnosticReport = new DiagnosticReport(repairOrderDTO.getDiagnosticReport());
     }
 
     /**
@@ -63,6 +72,19 @@ public class RepairOrder {
         diagnosticReport.addRepairTask(taskToAdd);
         notifyObservers();
     }
+
+    public void updateState(State newState) {
+        this.state = newState;
+    }
+
+    public void updateDiagnosticResult (String newDiagnosticResult) {
+        this.diagnosticReport.setDiagnosticResult(newDiagnosticResult);
+    }
+
+    public void updateCompletionDate(LocalDate estimatedDate) {
+        this.estimatedCompletionDate = estimatedDate;
+    }
+
 
     /**
      * Get the repair order's id.

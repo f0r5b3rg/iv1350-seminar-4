@@ -26,6 +26,7 @@ public class View {
     public View(Controller controller) {
         this.controller = controller;
         controller.addRepairOrderObserver(new RepairOrderView());
+        controller.addRepairOrderObserver(new RepairOrderLogger());
     }
 
     /**
@@ -57,14 +58,14 @@ public class View {
             List<BikeDTO> customer5Bikes = new ArrayList<>(List.of(customer5Bike1));
 
             // Create all test customers.
-            CustomerDTO customer1 = new CustomerDTO("Pia", "pi314@gmail.com", "070676767", customer1Bikes);
-            CustomerDTO customer2 = new CustomerDTO("Shaun Bannanpannkaka", "banan@djungel.com", "0702137", customer2Bikes);
-            CustomerDTO customer3 = new CustomerDTO("Lasses Gunnar", "Lasso@hotmail.com", "3049343", customer3Bikes);
+            // CustomerDTO customer1 = new CustomerDTO("Pia", "pi314@gmail.com", "070676767", customer1Bikes);
+            // CustomerDTO customer2 = new CustomerDTO("Shaun Bannanpannkaka", "banan@djungel.com", "0702137", customer2Bikes);
+            // CustomerDTO customer3 = new CustomerDTO("Lasses Gunnar", "Lasso@hotmail.com", "3049343", customer3Bikes);
             CustomerDTO customer4 = new CustomerDTO("Test Testsson", "test@test.com", "0707777777", customer4Bikes);
             CustomerDTO customer5 = new CustomerDTO("Prov Provsdotter", "prov@prov.se", "1231231212", customer5Bikes);
 
             // Save test customers and corresponding new repair order to registries.
-            ArrayList<CustomerDTO> testCustomers = new ArrayList<>(List.of(customer1, customer2, customer3, customer4, customer5));
+            ArrayList<CustomerDTO> testCustomers = new ArrayList<>(List.of(customer4, customer5));
             for (CustomerDTO customer : testCustomers) {
                 // Adds customer to CustomerRegistry.
                 controller.saveCustomer(customer);
@@ -78,10 +79,13 @@ public class View {
                 controller.saveActiveRepairOrder();
             }
 
-            controller.updateState(0, State.DENIED);
-            controller.updateState(1, State.DENIED);
-            controller.updateState(2, State.DENIED);
-            controller.updateState(3, State.DENIED);
+            controller.setActiveRepairOrder(0);
+            controller.updateState(State.DENIED);
+            controller.saveActiveRepairOrder();
+            controller.setActiveRepairOrder(1);
+            controller.updateState(State.DENIED);
+            controller.saveActiveRepairOrder();
+
 
             // At this point the customer registry and repair order registry contains 5 test objects.
 
@@ -92,9 +96,7 @@ public class View {
             // system searches customer registry for customer details (name and email address),
             // and for details about the customer’s bike (brand, model and serial number).
 
-            CustomerDTO foundCustomer = null;
-            // Search for customer that exists.
-            foundCustomer = controller.searchCustomer("0707777777");
+            CustomerDTO foundCustomer = controller.searchCustomer("0707777777");
 
             System.out.println("\nResult of searching for existing customer by phone number:\n" + foundCustomer + "\n");
 
@@ -104,7 +106,6 @@ public class View {
 
             controller.createRepairOrder("0707777777", "123bike123", customerProblemDescription);
             controller.saveActiveRepairOrder();
-            int id = 5; // saved id so it is easy to change
 
             // Technician asks system for repair order and system presents repair order and
             // system presents repair order.
@@ -144,9 +145,10 @@ public class View {
             controller.addRepairTask("The bike misses a wheel", 999);
             controller.addRepairTask("The chain is rusty", 67);
             String diagnosticResult = "The bike is definitely broken";
-            controller.updateDiagnosticResult(id, diagnosticResult);
-            controller.updateState(id, State.READY_FOR_APPROVAL);
-            controller.updateCompletionDate(id, LocalDate.of(2026, 6, 7));
+            controller.updateDiagnosticResult(diagnosticResult);
+            controller.updateState(State.READY_FOR_APPROVAL);
+            controller.updateCompletionDate(LocalDate.of(2026, 6, 7));
+            controller.saveActiveRepairOrder();
 
             // Receptionist informs customer about diagnostic report, proposed repair tasks, cost
             // for each proposed repair task, and total cost.
@@ -171,7 +173,8 @@ public class View {
 
             // Customer accepts proposed repair tasks and cost.
             // Receptionist registers that customer accepted repair order.
-            controller.updateState(id, State.ACCEPTED);
+            controller.updateState(State.ACCEPTED);
+            controller.saveActiveRepairOrder();
 
             // System prints repair order. The printout contains all repair order data, including
             // estimation of when reparation will be completed.
@@ -185,7 +188,6 @@ public class View {
                 errorMsgHandler.showErrorMsg("Managed to find a customer that does not exist in the database");
             } catch (CustomerNotFoundException e) {
                 errorMsgHandler.showErrorMsg("Customer correctly not found in database");
-
             }
         } catch (CustomerNotFoundException e) {
             errorMsgHandler.showErrorMsg("Customer could not be found among existing customers.");

@@ -38,6 +38,7 @@ import java.time.format.FormatStyle;
 /**
  * This class is responsible for the log.
  */
+
 public class LogHandler {
     private static final String LOG_FILE_NAME = "repairbike-log.txt";
     private static final LogHandler INSTANCE = new LogHandler();
@@ -47,7 +48,7 @@ public class LogHandler {
         return INSTANCE;
     }
 
-    public LogHandler() {
+    private LogHandler() {
         try {
             logFile = new PrintWriter(new FileWriter(LOG_FILE_NAME, true), true);
         } catch (IOException ex) {
