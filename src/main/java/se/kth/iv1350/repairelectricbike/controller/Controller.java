@@ -36,7 +36,7 @@ public class Controller {
      * Searches for an existing customer in the customerRegistry.
      *
      * @param phoneNumber The phone number of the sought customer.
-     * @return            The customer's information.
+     * @return The customer's information.
      */
     public CustomerDTO searchCustomer(String phoneNumber) throws CustomerNotFoundException {
         try {
@@ -47,13 +47,15 @@ public class Controller {
     }
 
     /**
-     * Creates a new repair order for a customer and sets it as the currently active repair order.
+     * Creates a new repair order for a customer and sets it as the currently active
+     * repair order.
      *
      * @param phoneNumber  The phone number of the customer.
      * @param bikeSerialNo The serial number of the customers bike.
      * @param problemDesc  The description of the problems with the customers bike.
      */
-    public void createRepairOrder(String phoneNumber, String bikeSerialNo, String problemDesc) throws CustomerNotFoundException {
+    public void createRepairOrder(String phoneNumber, String bikeSerialNo, String problemDesc)
+            throws CustomerNotFoundException {
         CustomerDTO customer = searchCustomer(phoneNumber);
         activeRepairOrder = new RepairOrder(customer, bikeSerialNo, problemDesc);
         activeRepairOrder.addRepairOrderObservers(repairOrderObservers);
@@ -85,7 +87,7 @@ public class Controller {
      * Retrieves all repair orders that match the specified state.
      *
      * @param state The state of the repair orders.
-     * @return      A list of each repair order that is in the sought state.
+     * @return A list of each repair order that is in the sought state.
      */
     public List<RepairOrderDTO> findRepairOrders(State state) {
         return repairOrderRegistry.findRepairOrders(state);
@@ -105,7 +107,7 @@ public class Controller {
     /**
      * Updates the current state of the repair order.
      *
-     * @param newState      The new state of the repair order.
+     * @param newState The new state of the repair order.
      */
     public void updateState(State newState) {
         activeRepairOrder.updateState(newState);
@@ -127,14 +129,12 @@ public class Controller {
     public void applyWinterDiscount() {
         activeRepairOrder.applyDiscount(new SummerDiscount());
     }
+
     /**
      * Finds the repair order and prints it.
-     *
-     * @param repairOrderID The id of the repair order to print.
      */
-    public void printRepairOrder(int repairOrderID) {
-        RepairOrderDTO repairOrderToPrint = repairOrderRegistry.getRepairOrderDTObyID(repairOrderID);
-        PrintOut printOut = new PrintOut(repairOrderToPrint);
+    public void printRepairOrder() {
+        PrintOut printOut = new PrintOut(activeRepairOrder.convertToDTO());
         printer.printPrintOut(printOut);
     }
 

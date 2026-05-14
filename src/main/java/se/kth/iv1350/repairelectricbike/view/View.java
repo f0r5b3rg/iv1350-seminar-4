@@ -127,7 +127,7 @@ public class View {
             // repair tasks.
             // System updates repair order, by adding diagnostic report and proposed repair
             // tasks.
-            System.out.println("\nTechnician performs a diagnostic of the bike.\n");
+            System.out.println("\nTechnician performs a diagnosis of the bike.\n");
             controller.addRepairTask("The bike misses a wheel", 999);
             controller.addRepairTask("The chain is rusty", 67);
             controller.updateDiagnosticResult("The bike is definitely broken");
@@ -156,9 +156,8 @@ public class View {
             // System prints repair order. The printout contains all repair order data,
             // including
             // estimation of when reparation will be completed.
-            List<RepairOrderDTO> foundRepairOrders = controller.findRepairOrders(State.ACCEPTED);
             System.out.println("Presents all data regarding customer to customer:\n");
-            controller.printRepairOrder(foundRepairOrders.getFirst().getId());
+            controller.printRepairOrder();
 
             // Attempt to call the database, that are offline with a hardcoded phone number
             // "123"
