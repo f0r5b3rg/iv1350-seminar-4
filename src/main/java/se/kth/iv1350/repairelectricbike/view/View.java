@@ -113,21 +113,21 @@ public class View {
             // problem description and date.
             String customerProblemDescription = "The bike has one wheel";
             controller.createRepairOrder("0707777777", "123bike123", customerProblemDescription);
-            System.out.println("\nSaving the created repair order to the registry.\n");
+            System.out.println("\nSaving the created repair order to the registry: ");
             controller.saveActiveRepairOrder();
 
             // Technician asks system for repair order and system presents repair order and
             // system presents repair order.
             List<RepairOrderDTO> repairOrders = controller.findRepairOrders(State.NEWLY_CREATED);
             RepairOrderDTO repairOrder = repairOrders.getLast();
-            System.out.println("System presents selected repair order:\n");
+            System.out.println("System presents selected repair order:");
             printRepairOrder(repairOrder);
 
             // Technician performs diagnostic and enters diagnostic report and proposed
             // repair tasks.
             // System updates repair order, by adding diagnostic report and proposed repair
             // tasks.
-            System.out.println("\nTechnician performs a diagnosis of the bike.\n");
+            System.out.println("\nTechnician performs a diagnostic of the bike.\n");
             controller.addRepairTask("The bike misses a wheel", 999);
             controller.addRepairTask("The chain is rusty", 67);
             controller.updateDiagnosticResult("The bike is definitely broken");
@@ -203,7 +203,7 @@ public class View {
                 \tState: %s
                 \tEstimated completion date: %s
                 \tDiagnostic Report:
-                    \tDiagonsis: %s
+                    \tDiagnostic result: %s
                     \tTotal cost: %.1f
                     \tRepair tasks:
                 """,
@@ -229,7 +229,7 @@ public class View {
     private void printDiagnosticReport(DiagnosticReportDTO diagnosticReport) {
         System.out.printf("""
                 \tDiagnostic Report:
-                    \tDiagnosis result: %s
+                    \tDiagnostic result: %s
                     \tTotal cost: %.1f
                     \tRepair tasks:
                 """,
