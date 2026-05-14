@@ -27,10 +27,11 @@ public class DiagnosticReport {
     }
 
     /**
-     * Creates a repair task and adds it to the diagnostic report. Calculates the new total cost of all
+     * Creates a repair task and adds it to the diagnostic report. Calculates the
+     * new total cost of all
      * repair tasks.
      *
-     * @param repairTask    The repair task to be added.
+     * @param repairTask The repair task to be added.
      */
     void addRepairTask(RepairTaskDTO repairTask) {
         repairTasks.add(repairTask);
@@ -47,9 +48,15 @@ public class DiagnosticReport {
         return new DiagnosticReportDTO(this.diagnosticResult, this.repairTasks, this.totalCost);
     }
 
+    /**
+     * Updates the diagnostic result of a diagnostic report.
+     * 
+     * @param newDiagnosticResult the new diagnostic result.
+     */
     public void setDiagnosticResult(String newDiagnosticResult) {
         this.diagnosticResult = newDiagnosticResult;
     }
+
     /**
      * Get the diagnostic result.
      *
@@ -68,7 +75,9 @@ public class DiagnosticReport {
         return repairTasks;
     }
 
-    void setTotalCost(double totalCost) {this.totalCost = totalCost;}
+    void setTotalCost(double totalCost) {
+        this.totalCost = totalCost;
+    }
 
     /**
      * Get the total cost of all the repair tasks.

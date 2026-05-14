@@ -10,10 +10,16 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
+/**
+ * Logs repair order updates to a text file.
+ */
 public class RepairOrderLogger implements RepairOrderObserver {
     private static final String LOG_FILE_NAME = "repairorderupdate-log.txt";
     private PrintWriter logFile;
 
+    /**
+     * Creates a new instance and opens the log file.
+     */
     public RepairOrderLogger() {
         try {
             logFile = new PrintWriter(new FileWriter(LOG_FILE_NAME, true), true);
@@ -22,6 +28,12 @@ public class RepairOrderLogger implements RepairOrderObserver {
             ex.printStackTrace();
         }
     }
+
+    /**
+     * Logs information about an updated repair order.
+     * 
+     * @param repairOrderDTO The updated repair order.
+     */
     @Override
     public void orderUpdated(RepairOrderDTO repairOrderDTO) {
         StringBuilder logMsgBuilder = new StringBuilder();

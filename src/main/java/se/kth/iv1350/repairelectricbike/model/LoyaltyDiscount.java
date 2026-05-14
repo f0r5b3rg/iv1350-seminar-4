@@ -1,6 +1,9 @@
 package se.kth.iv1350.repairelectricbike.model;
 
-public class LoyaltyDiscount implements DiscountStrategy{
+/**
+ * A discount strategy that gives 50% discount to loyal customers.
+ */
+public class LoyaltyDiscount implements DiscountStrategy {
 
     @Override
     public double calculateDiscount(RepairOrder repairOrder) {

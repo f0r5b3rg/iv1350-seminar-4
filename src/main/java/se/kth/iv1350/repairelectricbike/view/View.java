@@ -78,7 +78,7 @@ public class View {
             // At this point the customer registry and repair order registry contains 2 test
             // objects.
 
-            System.out.println("----------REPAIR ELECTRIC BIKE SCENARIO----------\n");
+            System.out.println("\n----------REPAIR ELECTRIC BIKE SCENARIO----------\n");
 
             // Receptionist enters customer’s phone number and
             // system searches customer registry for customer details (name and email
@@ -86,12 +86,12 @@ public class View {
             // and for details about the customer’s bike (brand, model and serial number).
             CustomerDTO foundCustomer = controller.searchCustomer("0707777777");
             System.out.printf("""
-                    Result of searching for existing customer by phone number: \n
-                    \tName: %s
-                    \tEmail: %s
-                    \tPhone number: %s
-                    \tNumber of repairs: %d
-                    \tOwned bikes:
+                    Result of searching for existing customer by phone number:
+                        Name: %s
+                        Email: %s
+                        Phone number: %s
+                        Number of repairs: %d
+                        Owned bikes:
                     """,
                     foundCustomer.getName().toString(),
                     foundCustomer.getEmail().toString(),
@@ -113,21 +113,20 @@ public class View {
             // problem description and date.
             String customerProblemDescription = "The bike has one wheel";
             controller.createRepairOrder("0707777777", "123bike123", customerProblemDescription);
-            System.out.println("\nSaving the created repair order to the registry: ");
             controller.saveActiveRepairOrder();
 
             // Technician asks system for repair order and system presents repair order and
             // system presents repair order.
             List<RepairOrderDTO> repairOrders = controller.findRepairOrders(State.NEWLY_CREATED);
             RepairOrderDTO repairOrder = repairOrders.getLast();
-            System.out.println("System presents selected repair order:");
+            System.out.println("\nSystem presents selected repair order:");
             printRepairOrder(repairOrder);
 
             // Technician performs diagnostic and enters diagnostic report and proposed
             // repair tasks.
             // System updates repair order, by adding diagnostic report and proposed repair
             // tasks.
-            System.out.println("\nTechnician performs a diagnosis of the bike.\n");
+            System.out.println("\nTechnician performs a diagnosis of the bike: ");
             controller.addRepairTask("The bike misses a wheel", 999);
             controller.addRepairTask("The chain is rusty", 67);
             controller.updateDiagnosticResult("The bike is definitely broken");
@@ -135,7 +134,7 @@ public class View {
             controller.updateCompletionDate(LocalDate.of(2026, 6, 7));
             controller.saveActiveRepairOrder();
 
-            System.out.println("Applying loyalty and summer discount.\n");
+            System.out.println("\nApplying loyalty and summer discount: ");
             controller.applyLoyaltyDiscount();
             controller.applyWinterDiscount();
             controller.saveActiveRepairOrder();
@@ -145,7 +144,7 @@ public class View {
             // for each proposed repair task, and total cost.
             List<RepairOrderDTO> updatedRepairOrders = controller.findRepairOrders(State.READY_FOR_APPROVAL);
             DiagnosticReportDTO diagnosticReport = updatedRepairOrders.getLast().getDiagnosticReport();
-            System.out.println("Presents diagnostic report to the customer:\n");
+            System.out.println("\nPresents diagnostic report to the customer:\n");
             printDiagnosticReport(diagnosticReport);
 
             // Customer accepts proposed repair tasks and cost.
@@ -156,7 +155,7 @@ public class View {
             // System prints repair order. The printout contains all repair order data,
             // including
             // estimation of when reparation will be completed.
-            System.out.println("Presents all data regarding customer to customer:\n");
+            System.out.println("\nPresents all data regarding customer to customer:");
             controller.printRepairOrder();
 
             // Attempt to call the database, that are offline with a hardcoded phone number
@@ -193,18 +192,18 @@ public class View {
 
     private void printRepairOrder(RepairOrderDTO repairOrder) {
         System.out.printf("""
-                \tID: %s
-                \tBike to repair:
-                    \tBrand: %s
-                    \tModel: %s
-                    \tSerial number: %s
-                \tProblem description: %s
-                \tState: %s
-                \tEstimated completion date: %s
-                \tDiagnostic Report:
-                    \tDiagnostic result: %s
-                    \tTotal cost: %.1f
-                    \tRepair tasks:
+                    ID: %s
+                    Bike to repair:
+                        Brand: %s
+                        Model: %s
+                        Serial number: %s
+                    Problem description: %s
+                    State: %s
+                    Estimated completion date: %s
+                    Diagnostic Report:
+                        Diagnostic result: %s
+                        Total cost: %.1f
+                        Repair tasks:
                 """,
                 repairOrder.getId(),
                 repairOrder.getBikeToRepair().getBrand(),
@@ -218,7 +217,7 @@ public class View {
 
         for (RepairTaskDTO task : repairOrder.getDiagnosticReport().getRepairTasks()) {
             System.out.printf("""
-                            Repair task description: %s, Cost to repair: %.1f
+                                Repair task description: %s, Cost to repair: %.1f
                     """,
                     task.getRepairTaskDescription(),
                     task.getCostToRepair());
@@ -227,10 +226,10 @@ public class View {
 
     private void printDiagnosticReport(DiagnosticReportDTO diagnosticReport) {
         System.out.printf("""
-                \tDiagnostic Report:
-                    \tDiagnostic result: %s
-                    \tTotal cost: %.1f
-                    \tRepair tasks:
+                Diagnostic Report:
+                    Diagnostic result: %s
+                    Total cost: %.1f
+                    Repair tasks:
                 """,
                 diagnosticReport.getDiagnosticResult(),
                 diagnosticReport.getTotalCost());
@@ -242,5 +241,6 @@ public class View {
                     task.getRepairTaskDescription(),
                     task.getCostToRepair());
         }
+        System.out.println(" ");
     }
 }

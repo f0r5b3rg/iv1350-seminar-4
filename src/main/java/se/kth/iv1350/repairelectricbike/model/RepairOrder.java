@@ -28,9 +28,9 @@ public class RepairOrder {
     /**
      * Creates a new instance of a repair order.
      * 
-     * @param customerDTO           The customer's information. 
-     * @param bikeSerialNo          The bike's serial number.
-     * @param problemDescription    The customer's problem description of the bike. 
+     * @param customerDTO        The customer's information.
+     * @param bikeSerialNo       The bike's serial number.
+     * @param problemDescription The customer's problem description of the bike.
      */
     public RepairOrder(CustomerDTO customerDTO, String bikeSerialNo, String problemDescription) {
         this.id = RepairOrderRegistry.getRepairOrderCount();
@@ -53,38 +53,59 @@ public class RepairOrder {
     }
 
     /**
-     * Converts a customer instance to a DTO. 
+     * Converts a customer instance to a DTO.
      * 
-     * @return  the customer DTO.
+     * @return the customer DTO.
      */
     public RepairOrderDTO convertToDTO() {
-        return new RepairOrderDTO(this.id, this.customer.getCustomerDTO(), this.bikeToRepair, this.problemDescription, this.estimatedCompletionDate, this.state, this.diagnosticReport.ConvertToDTO());
+        return new RepairOrderDTO(this.id, this.customer.getCustomerDTO(), this.bikeToRepair, this.problemDescription,
+                this.estimatedCompletionDate, this.state, this.diagnosticReport.ConvertToDTO());
     }
 
     /**
      * Creates and adds a repair task DTO to the repair order's diagnostic report.
      *
-     * @param repairTaskDescription     A description of the repair task that needs to be performed.
-     * @param costToRepair              The cost to perform the repair task.
+     * @param repairTaskDescription A description of the repair task that needs to
+     *                              be performed.
+     * @param costToRepair          The cost to perform the repair task.
      */
     public void addRepairTask(String repairTaskDescription, double costToRepair) {
         RepairTaskDTO taskToAdd = new RepairTaskDTO(repairTaskDescription, costToRepair);
         diagnosticReport.addRepairTask(taskToAdd);
-        notifyObservers();
     }
 
+    /**
+     * Updates the state of the repair order.
+     * 
+     * @param newState The new state of the repair order.
+     */
     public void updateState(State newState) {
         this.state = newState;
     }
 
-    public void updateDiagnosticResult (String newDiagnosticResult) {
+    /**
+     * Updates the diagnostic result of the repair order.
+     * 
+     * @param newDiagnosticResult The new diagnostic result of the repair order.
+     */
+    public void updateDiagnosticResult(String newDiagnosticResult) {
         this.diagnosticReport.setDiagnosticResult(newDiagnosticResult);
     }
 
+    /**
+     * Updates the estimated completion date for a repair order.
+     * 
+     * @param estimatedDate The new estimated completion date of the repair order.
+     */
     public void updateCompletionDate(LocalDate estimatedDate) {
         this.estimatedCompletionDate = estimatedDate;
     }
 
+    /**
+     * Applies the specified strategy discount to the repair order.
+     * 
+     * @param strategy The discount strategy to apply.
+     */
     public void applyDiscount(DiscountStrategy strategy) {
         double discount = strategy.calculateDiscount(this);
         diagnosticReport.setTotalCost(diagnosticReport.getTotalCost() - discount);
@@ -109,9 +130,9 @@ public class RepairOrder {
     }
 
     /**
-     * Get the value of the bike to repair. 
+     * Get the value of the bike to repair.
      * 
-     * @return the value of the bike to repair 
+     * @return the value of the bike to repair
      */
     public BikeDTO getBikeToRepair() {
         return bikeToRepair;
@@ -127,16 +148,16 @@ public class RepairOrder {
     }
 
     /**
-     * Get the value of the estimated completion date. 
+     * Get the value of the estimated completion date.
      * 
-     * @return the value of the estimated completion date. 
+     * @return the value of the estimated completion date.
      */
     public LocalDate getEstimatedCompletionDate() {
         return estimatedCompletionDate;
     }
 
     /**
-     * Get the value of the state. 
+     * Get the value of the state.
      * 
      * @return the value of the state.
      */
@@ -147,7 +168,7 @@ public class RepairOrder {
     /**
      * Get the value of the diagnostic report.
      * 
-     * @return the value of the diagnostic report. 
+     * @return the value of the diagnostic report.
      */
     public DiagnosticReport getDiagnosticReport() {
         return diagnosticReport;
@@ -162,7 +183,7 @@ public class RepairOrder {
     }
 
     public void notifyObservers() {
-        for (RepairOrderObserver obs: repairOrderObservers) {
+        for (RepairOrderObserver obs : repairOrderObservers) {
             obs.orderUpdated(this.convertToDTO());
         }
     }

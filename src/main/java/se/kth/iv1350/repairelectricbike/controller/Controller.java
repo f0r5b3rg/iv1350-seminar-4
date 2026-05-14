@@ -42,7 +42,7 @@ public class Controller {
         try {
             return customerRegistry.searchCustomer(phoneNumber);
         } catch (CustomerNotFoundException e) {
-            throw new CustomerNotFoundException("Could not find customer with phone number: " + phoneNumber);
+            throw new CustomerNotFoundException("Could not find customer with phone number: " + phoneNumber, e);
         }
     }
 
@@ -147,6 +147,11 @@ public class Controller {
         activeRepairOrder.updateCompletionDate(estimatedDate);
     }
 
+    /**
+     * Add an observer that will notified whenever a repair order is updated.
+     * 
+     * @param obs The observer to add.
+     */
     public void addRepairOrderObserver(RepairOrderObserver obs) {
         repairOrderObservers.add(obs);
     }
