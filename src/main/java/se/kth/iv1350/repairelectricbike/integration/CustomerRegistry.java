@@ -47,7 +47,9 @@ public class CustomerRegistry {
    * Search for a customer with the matching phone number.
    *
    * @param searchedPhoneNumber The phone number that is searched for.
-   * @return A customer with the matching phone number if found, else <code>null</code>.
+   * @return A customer with the matching phone number if found.
+   * @throws CustomerNotFoundException If no customer is found with the specified phone number.
+   * @throws DatabaseCannotBeCalledException If the database cannot be reached.
    */
   public CustomerDTO searchCustomer(String searchedPhoneNumber) throws CustomerNotFoundException {
     if (searchedPhoneNumber.equals("123")) {

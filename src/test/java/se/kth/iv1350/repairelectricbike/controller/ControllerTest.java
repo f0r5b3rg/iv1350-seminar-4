@@ -103,7 +103,7 @@ public class ControllerTest {
     }
 
     @Test
-    void testSaveCustomer() throws CustomerNotFoundException {
+    void testSaveCustomer() throws CustomerNotFoundException, OperationFailedException {
         List<BikeDTO> bikes = new ArrayList<>(List.of(new BikeDTO("Dalahäst", "Hofors2000", "123gäng456")));
         CustomerDTO customerToSave = new CustomerDTO("Linus Sandin", "sandalen67@hotmail.com", "07696969", 0, bikes);
 
@@ -114,7 +114,7 @@ public class ControllerTest {
     }
 
     @Test
-    void testSearchCustomer() throws CustomerNotFoundException {
+    void testSearchCustomer() throws CustomerNotFoundException, OperationFailedException {
         CustomerDTO result = controller.searchCustomer("07676767");
         assertEquals(customer, result, "Failed to find customer by phone number.");
     }

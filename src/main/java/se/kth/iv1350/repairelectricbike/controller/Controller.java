@@ -7,6 +7,8 @@ import java.util.List;
 import se.kth.iv1350.repairelectricbike.integration.*;
 import se.kth.iv1350.repairelectricbike.model.*;
 
+import javax.xml.crypto.Data;
+
 /**
  * This is the application's only controller class. All calls to the model pass
  * through here.
@@ -37,12 +39,14 @@ public class Controller {
      *
      * @param phoneNumber The phone number of the sought customer.
      * @return The customer's information.
+     * @throws CustomerNotFoundException If no customer is found with the specified phone number.
+     * @throws DatabaseCannotBeCalledException If the database cannot be reached.
      */
-    public CustomerDTO searchCustomer(String phoneNumber) throws CustomerNotFoundException {
+    public CustomerDTO searchCustomer(String phoneNumber) throws CustomerNotFoundException, OperationFailedException {
         try {
             return customerRegistry.searchCustomer(phoneNumber);
-        } catch (CustomerNotFoundException e) {
-            throw new CustomerNotFoundException("Could not find customer with phone number: " + phoneNumber, e);
+        } catch (DatabaseCannotBeCalledException e) {
+            throw new OperationFailedException("Could not search for customer", e);
         }
     }
 
@@ -55,7 +59,7 @@ public class Controller {
      * @param problemDesc  The description of the problems with the customers bike.
      */
     public void createRepairOrder(String phoneNumber, String bikeSerialNo, String problemDesc)
-            throws CustomerNotFoundException {
+            throws CustomerNotFoundException, OperationFailedException {
         CustomerDTO customer = searchCustomer(phoneNumber);
         activeRepairOrder = new RepairOrder(customer, bikeSerialNo, problemDesc);
         activeRepairOrder.addRepairOrderObservers(repairOrderObservers);
@@ -148,7 +152,7 @@ public class Controller {
     }
 
     /**
-     * Add an observer that will notified whenever a repair order is updated.
+     * Add an observer that will be notified whenever a repair order is updated.
      * 
      * @param obs The observer to add.
      */

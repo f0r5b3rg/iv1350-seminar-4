@@ -13,14 +13,4 @@ public class CustomerNotFoundException extends Exception {
     public CustomerNotFoundException(String msg) {
         super(msg);
     }
-
-    /**
-     * Creates a new instance with a specified message and cause.
-     * 
-     * @param msg   The exception message.
-     * @param cause The exception that caused this exception to be thrown.
-     */
-    public CustomerNotFoundException(String msg, Throwable cause) {
-        super(msg, cause);
-    }
 }

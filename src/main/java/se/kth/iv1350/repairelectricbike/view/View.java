@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import se.kth.iv1350.repairelectricbike.controller.Controller;
+import se.kth.iv1350.repairelectricbike.controller.OperationFailedException;
 import se.kth.iv1350.repairelectricbike.integration.*;
 import se.kth.iv1350.repairelectricbike.util.LogHandler;
 
@@ -163,18 +164,16 @@ public class View {
             try {
                 System.out.println("Trying to search customer while database is offline");
                 controller.searchCustomer("123");
-                errorMsgHandler.showErrorMsg("Managed to search database even though it should be offline");
-            } catch (DatabaseCannotBeCalledException e) {
-                errorMsgHandler.showErrorMsg("Database could not be reached as expected\n");
+            } catch (OperationFailedException e) {
+                writeToLogAndConsole("Failed to search for customer.\n", e);
             } catch (CustomerNotFoundException e) {
-                writeToLogAndConsole("Customer was not found, but expected database offline", e);
+                errorMsgHandler.showErrorMsg("Customer was not found.");
             }
 
             // Attempt to search for a customer that does not exist.
             try {
                 System.out.println("Trying to find a nonexisting customer, should generate an error message.");
                 controller.searchCustomer("1");
-                errorMsgHandler.showErrorMsg("Managed to find a customer that does not exist in the database");
             } catch (CustomerNotFoundException e) {
                 errorMsgHandler.showErrorMsg("Customer correctly not found in database");
             }
