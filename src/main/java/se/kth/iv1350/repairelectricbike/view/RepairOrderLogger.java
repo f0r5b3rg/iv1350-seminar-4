@@ -1,6 +1,7 @@
 package se.kth.iv1350.repairelectricbike.view;
 
 import se.kth.iv1350.repairelectricbike.integration.RepairOrderDTO;
+import se.kth.iv1350.repairelectricbike.integration.RepairTaskDTO;
 import se.kth.iv1350.repairelectricbike.model.RepairOrderObserver;
 
 import java.io.FileWriter;
@@ -35,13 +36,43 @@ public class RepairOrderLogger implements RepairOrderObserver {
      * @param repairOrderDTO The updated repair order.
      */
     @Override
-    public void orderUpdated(RepairOrderDTO repairOrderDTO) {
-        StringBuilder logMsgBuilder = new StringBuilder();
-        logMsgBuilder.append(createTime());
-        logMsgBuilder.append(", Repair order with id: ");
-        logMsgBuilder.append(repairOrderDTO.getId());
-        logMsgBuilder.append(" updated.");
-        logFile.println(logMsgBuilder);
+    public void orderUpdated(RepairOrderDTO repairOrder) {
+
+        StringBuilder toPrint = new StringBuilder(String.format("""
+                        \nRepair order with ID %d has been updated:
+                            ID: %s
+                            Bike to repair:
+                                Brand: %s
+                                Model: %s
+                                Serial number: %s
+                            Problem description: %s
+                            State: %s
+                            Estimated completion date: %s
+                            Diagnostic Report:
+                                Diagnostic result: %s
+                                Total cost: %.1f
+                                Repair tasks:
+                        """,
+                repairOrder.getId(),
+                repairOrder.getId(),
+                repairOrder.getBikeToRepair().getBrand(),
+                repairOrder.getBikeToRepair().getModel(),
+                repairOrder.getBikeToRepair().getSerialNo(),
+                repairOrder.getProblemDescription(),
+                repairOrder.getState(),
+                repairOrder.getEstimatedCompletionDate(),
+                repairOrder.getDiagnosticReport().getDiagnosticResult(),
+                repairOrder.getDiagnosticReport().getTotalCost()));
+
+        for (RepairTaskDTO task : repairOrder.getDiagnosticReport().getRepairTasks()) {
+            toPrint.append(String.format("""
+                                Repair task description: %s, Cost to repair: %.1f
+                    """,
+                    task.getRepairTaskDescription(),
+                    task.getCostToRepair()));
+        }
+
+        logFile.println(toPrint);
         logFile.println("\n");
     }
 
