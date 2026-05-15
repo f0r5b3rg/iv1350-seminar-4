@@ -49,7 +49,7 @@ public class ControllerTest {
     }
 
     @Test
-    void testAddRepairTask() throws CustomerNotFoundException {
+    void testAddRepairTask() throws CustomerNotFoundException, OperationFailedException {
         String repairTaskProbDesc = "Problem löst";
         int costToRepair = 6767;
 
@@ -75,7 +75,7 @@ public class ControllerTest {
     }
 
     @Test
-    void testCreateAndSaveActiveRepairOrder() throws CustomerNotFoundException {
+    void testCreateAndSaveActiveRepairOrder() throws CustomerNotFoundException, OperationFailedException {
         String problemDesc = "För lite öl på styret";
         controller.createRepairOrder(customer.getPhoneNumber(), bikes.get(1).getSerialNo(), problemDesc);
         controller.saveActiveRepairOrder();
@@ -96,7 +96,7 @@ public class ControllerTest {
             String problemDesc = "test problem description";
             controller.createRepairOrder("07", bikes.get(1).getSerialNo(), problemDesc);
         } catch (CustomerNotFoundException e) {
-            assertTrue(e.getMessage().contains("Could not find customer with phone number: 07"));
+            assertTrue(e.getMessage().contains("Customer with phone number 07 not found."));
         } catch (Exception e) {
             fail("Wrong exception thrown.");
         }
@@ -125,7 +125,7 @@ public class ControllerTest {
             controller.searchCustomer("007");
             fail("Customer not present in database found.");
         } catch (CustomerNotFoundException e) {
-            assertTrue(e.getMessage().contains("Could not find customer with phone number: 007"));
+            assertTrue(e.getMessage().contains("Customer with phone number 007 not found."));
         } catch (Exception e) {
             fail("Wrong exception thrown.");
         }

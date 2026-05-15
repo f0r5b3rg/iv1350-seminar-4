@@ -433,3 +433,148 @@ Repair order with ID 2 has been updated:
 
 
 
+
+Repair order with ID 0 has been updated:
+    ID: 0
+    Bike to repair:
+        Brand: Scott
+        Model: Tester
+        Serial number: 123test67
+    Problem description: Bike inverted
+    State: NEWLY_CREATED
+    Estimated completion date: null
+    Diagnostic Report:
+        Diagnostic result: 
+        Total cost: 0,0
+        Repair tasks:
+
+
+
+
+Repair order with ID 1 has been updated:
+    ID: 1
+    Bike to repair:
+        Brand: Artemis
+        Model: Two
+        Serial number: 321liftoff
+    Problem description: Bike inverted
+    State: NEWLY_CREATED
+    Estimated completion date: null
+    Diagnostic Report:
+        Diagnostic result: 
+        Total cost: 0,0
+        Repair tasks:
+
+
+
+
+Repair order with ID 2 has been updated:
+    ID: 2
+    Bike to repair:
+        Brand: Lamborghini
+        Model: Aventador
+        Serial number: 123bike123
+    Problem description: The bike has one wheel
+    State: NEWLY_CREATED
+    Estimated completion date: null
+    Diagnostic Report:
+        Diagnostic result: 
+        Total cost: 0,0
+        Repair tasks:
+
+
+
+
+Repair order with ID 2 has been updated:
+    ID: 2
+    Bike to repair:
+        Brand: Lamborghini
+        Model: Aventador
+        Serial number: 123bike123
+    Problem description: The bike has one wheel
+    State: NEWLY_CREATED
+    Estimated completion date: null
+    Diagnostic Report:
+        Diagnostic result: 
+        Total cost: 999,0
+        Repair tasks:
+            Repair task description: The bike misses a wheel, Cost to repair: 999,0
+
+
+
+
+Repair order with ID 2 has been updated:
+    ID: 2
+    Bike to repair:
+        Brand: Lamborghini
+        Model: Aventador
+        Serial number: 123bike123
+    Problem description: The bike has one wheel
+    State: NEWLY_CREATED
+    Estimated completion date: null
+    Diagnostic Report:
+        Diagnostic result: 
+        Total cost: 1066,0
+        Repair tasks:
+            Repair task description: The bike misses a wheel, Cost to repair: 999,0
+            Repair task description: The chain is rusty, Cost to repair: 67,0
+
+
+
+
+Repair order with ID 2 has been updated:
+    ID: 2
+    Bike to repair:
+        Brand: Lamborghini
+        Model: Aventador
+        Serial number: 123bike123
+    Problem description: The bike has one wheel
+    State: READY_FOR_APPROVAL
+    Estimated completion date: 2026-06-07
+    Diagnostic Report:
+        Diagnostic result: The bike is definitely broken
+        Total cost: 1066,0
+        Repair tasks:
+            Repair task description: The bike misses a wheel, Cost to repair: 999,0
+            Repair task description: The chain is rusty, Cost to repair: 67,0
+
+
+
+
+Repair order with ID 2 has been updated:
+    ID: 2
+    Bike to repair:
+        Brand: Lamborghini
+        Model: Aventador
+        Serial number: 123bike123
+    Problem description: The bike has one wheel
+    State: READY_FOR_APPROVAL
+    Estimated completion date: 2026-06-07
+    Diagnostic Report:
+        Diagnostic result: The bike is definitely broken
+        Total cost: 479,7
+        Repair tasks:
+            Repair task description: The bike misses a wheel, Cost to repair: 999,0
+            Repair task description: The chain is rusty, Cost to repair: 67,0
+
+
+
+
+Repair order with ID 2 has been updated:
+    ID: 2
+    Bike to repair:
+        Brand: Lamborghini
+        Model: Aventador
+        Serial number: 123bike123
+    Problem description: The bike has one wheel
+    State: ACCEPTED
+    Estimated completion date: 2026-06-07
+    Diagnostic Report:
+        Diagnostic result: The bike is definitely broken
+        Total cost: 479,7
+        Repair tasks:
+            Repair task description: The bike misses a wheel, Cost to repair: 999,0
+            Repair task description: The chain is rusty, Cost to repair: 67,0
+
+
+
