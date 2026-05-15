@@ -126,7 +126,7 @@ public class Controller {
         activeRepairOrder.applyDiscount(new LoyaltyDiscount());
     }
 
-    public void applyWinterDiscount() {
+    public void applySummerDiscount() {
         activeRepairOrder.applyDiscount(new SummerDiscount());
     }
 

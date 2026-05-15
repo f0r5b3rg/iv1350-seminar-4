@@ -136,7 +136,7 @@ public class View {
 
             System.out.println("\nApplying loyalty and summer discount: ");
             controller.applyLoyaltyDiscount();
-            controller.applyWinterDiscount();
+            controller.applySummerDiscount();
             controller.saveActiveRepairOrder();
 
             // Receptionist informs customer about diagnostic report, proposed repair tasks,
