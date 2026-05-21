@@ -44,11 +44,11 @@ public class RepairOrderRegistry {
         // If a repair order with the same id as the one to be added already exists, replace it in the repairOrder list.
         if (foundRepairOrder != null) {
             this.repairOrders.set(newRepairOrder.id, newRepairOrder);
-            return;
+        } else {
+            // If one was not found, add it to the list.
+            repairOrders.add(newRepairOrder);
+            repairOrderCount += 1;
         }
-        // If one was not found, add it to the list.
-        repairOrders.add(newRepairOrder);
-        repairOrderCount += 1;
         notifyObservers(repairOrderDTO);
     }
 
