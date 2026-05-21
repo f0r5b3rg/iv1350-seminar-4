@@ -7,6 +7,8 @@ import java.util.List;
 import se.kth.iv1350.repairelectricbike.controller.Controller;
 import se.kth.iv1350.repairelectricbike.controller.OperationFailedException;
 import se.kth.iv1350.repairelectricbike.integration.*;
+import se.kth.iv1350.repairelectricbike.model.LoyaltyDiscount;
+import se.kth.iv1350.repairelectricbike.model.SummerDiscount;
 import se.kth.iv1350.repairelectricbike.util.LogHandler;
 
 /**
@@ -136,8 +138,8 @@ public class View {
             controller.saveActiveRepairOrder();
 
             System.out.println("\nApplying loyalty and summer discount: ");
-            controller.applyLoyaltyDiscount();
-            controller.applySummerDiscount();
+            controller.applyDiscount(new LoyaltyDiscount());
+            controller.applyDiscount(new SummerDiscount());
             controller.saveActiveRepairOrder();
 
             // Receptionist informs customer about diagnostic report, proposed repair tasks,

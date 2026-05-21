@@ -120,14 +120,9 @@ public class Controller {
         activeRepairOrder.updateDiagnosticResult(diagnosticResult);
     }
 
-    public void applyLoyaltyDiscount() {
-        activeRepairOrder.applyDiscount(new LoyaltyDiscount());
+    public void applyDiscount(DiscountStrategy discountStrategy) {
+        activeRepairOrder.applyDiscount(discountStrategy);
     }
-
-    public void applySummerDiscount() {
-        activeRepairOrder.applyDiscount(new SummerDiscount());
-    }
-
     /**
      * Finds the repair order and prints it.
      */
