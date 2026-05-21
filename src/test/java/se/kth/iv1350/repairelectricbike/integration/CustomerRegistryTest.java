@@ -60,13 +60,12 @@ public class CustomerRegistryTest {
     @Test
     void testFailedDatabaseCall() {
         String hardcodedDataBaseFailureNumber = "123";
-        try {
+
+        DatabaseCannotBeCalledException exception = assertThrows(DatabaseCannotBeCalledException.class, () -> {
             customerRegistry.searchCustomer(hardcodedDataBaseFailureNumber);
-            fail("Nonexisting customer was found.");
-        } catch (DatabaseCannotBeCalledException e) {
-            assertTrue(e.getMessage().contains("Database could not be called."));
-        } catch (CustomerNotFoundException e) {
-            fail("Wrong exception was thrown: " + e);
-        }
+        });
+
+        assertTrue(exception.getMessage().contains("Database could not be called."),
+                "The exception message did not contain the expected database failure text.");
     }
 }

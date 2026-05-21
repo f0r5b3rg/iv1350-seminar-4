@@ -680,3 +680,54 @@ Repair order with ID 2 has been updated in registry:
 
 
 
+
+Repair order with ID 0 has been updated in registry:
+    ID: 0
+    Bike to repair:
+        Brand: Scott
+        Model: Tester
+        Serial number: 123test67
+    Problem description: Bike inverted
+    State: NEWLY_CREATED
+    Estimated completion date: null
+    Diagnostic Report:
+        Diagnostic result: 
+        Total cost: 0,0
+        Repair tasks:
+
+
+
+
+Repair order with ID 1 has been updated in registry:
+    ID: 1
+    Bike to repair:
+        Brand: Artemis
+        Model: Two
+        Serial number: 321liftoff
+    Problem description: Bike inverted
+    State: NEWLY_CREATED
+    Estimated completion date: null
+    Diagnostic Report:
+        Diagnostic result: 
+        Total cost: 0,0
+        Repair tasks:
+
+
+
+
+Repair order with ID 2 has been updated in registry:
+    ID: 2
+    Bike to repair:
+        Brand: Lamborghini
+        Model: Aventador
+        Serial number: 123bike123
+    Problem description: The bike has one wheel
+    State: NEWLY_CREATED
+    Estimated completion date: null
+    Diagnostic Report:
+        Diagnostic result: 
+        Total cost: 0,0
+        Repair tasks:
+
+
+
