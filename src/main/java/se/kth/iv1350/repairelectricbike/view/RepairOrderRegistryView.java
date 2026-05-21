@@ -2,21 +2,21 @@ package se.kth.iv1350.repairelectricbike.view;
 
 import se.kth.iv1350.repairelectricbike.integration.RepairOrderDTO;
 import se.kth.iv1350.repairelectricbike.integration.RepairTaskDTO;
-import se.kth.iv1350.repairelectricbike.model.RepairOrderObserver;
+import se.kth.iv1350.repairelectricbike.integration.RepairOrderRegistryObserver;
 
 /**
  * Displays updated repair orders in the console.
  */
-public class RepairOrderView implements RepairOrderObserver {
+public class RepairOrderRegistryView implements RepairOrderRegistryObserver {
     /**
      * Prints information about the updated repair order.
      * 
      * @param repairOrder The updated repair order.
      */
     @Override
-    public void orderUpdated(RepairOrderDTO repairOrder) {
+    public void registryUpdated(RepairOrderDTO repairOrder) {
         System.out.printf("""
-                \nRepair order with ID %d has been updated:
+                \nRepair order with ID %d has been updated in the registry:
                     ID: %s
                     Bike to repair:
                         Brand: %s

@@ -13,7 +13,8 @@ public class Printer {
      *
      * @param printOut The PrintOut instance of the repairOrder that is to be printed.
      */
-    public void printPrintOut(PrintOut printOut) {
+    public void printRepairOrder(RepairOrderDTO repairOrderDTO) {
+        PrintOut printOut = new PrintOut(repairOrderDTO);
         System.out.println(printOut.createPrintOut());
     }
 }

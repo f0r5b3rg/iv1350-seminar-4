@@ -1,13 +1,10 @@
 package se.kth.iv1350.repairelectricbike.controller;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import se.kth.iv1350.repairelectricbike.integration.*;
 import se.kth.iv1350.repairelectricbike.model.*;
-
-import javax.xml.crypto.Data;
 
 /**
  * This is the application's only controller class. All calls to the model pass
@@ -17,7 +14,7 @@ public class Controller {
     private CustomerRegistry customerRegistry;
     private RepairOrderRegistry repairOrderRegistry;
     private Printer printer;
-    private List<RepairOrderObserver> repairOrderObservers = new ArrayList<>();
+
 
     // Keeps track of the repair order actively being handled.
     private RepairOrder activeRepairOrder;
@@ -62,7 +59,6 @@ public class Controller {
             throws CustomerNotFoundException, OperationFailedException {
         CustomerDTO customer = searchCustomer(phoneNumber);
         activeRepairOrder = new RepairOrder(customer, bikeSerialNo, problemDesc);
-        activeRepairOrder.addRepairOrderObservers(repairOrderObservers);
     }
 
     public void setActiveRepairOrder(int id) {
@@ -75,7 +71,6 @@ public class Controller {
     public void saveActiveRepairOrder() {
         RepairOrderDTO toSave = activeRepairOrder.convertToDTO();
         repairOrderRegistry.addRepairOrder(toSave);
-        activeRepairOrder.notifyObservers();
     }
 
     /**
@@ -105,7 +100,6 @@ public class Controller {
      */
     public void addRepairTask(String repairTaskDescription, double costToRepair) {
         activeRepairOrder.addRepairTask(repairTaskDescription, costToRepair);
-        saveActiveRepairOrder();
     }
 
     /**
@@ -138,8 +132,7 @@ public class Controller {
      * Finds the repair order and prints it.
      */
     public void printRepairOrder() {
-        PrintOut printOut = new PrintOut(activeRepairOrder.convertToDTO());
-        printer.printPrintOut(printOut);
+        printer.printRepairOrder(activeRepairOrder.convertToDTO());
     }
 
     /**
@@ -153,10 +146,10 @@ public class Controller {
 
     /**
      * Add an observer that will be notified whenever a repair order is updated.
-     * 
+     *
      * @param obs The observer to add.
      */
-    public void addRepairOrderObserver(RepairOrderObserver obs) {
-        repairOrderObservers.add(obs);
+    public void addRepairOrderRegistryObserver(RepairOrderRegistryObserver obs) {
+        repairOrderRegistry.addRepairOrderRegistryObserver(obs);
     }
 }

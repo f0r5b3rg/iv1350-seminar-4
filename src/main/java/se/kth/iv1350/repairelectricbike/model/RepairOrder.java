@@ -4,12 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import se.kth.iv1350.repairelectricbike.integration.BikeDTO;
-import se.kth.iv1350.repairelectricbike.integration.CustomerDTO;
-import se.kth.iv1350.repairelectricbike.integration.RepairOrderDTO;
-import se.kth.iv1350.repairelectricbike.integration.RepairOrderRegistry;
-import se.kth.iv1350.repairelectricbike.integration.RepairTaskDTO;
-import se.kth.iv1350.repairelectricbike.integration.State;
+import se.kth.iv1350.repairelectricbike.integration.*;
 
 /**
  * Contains information about a repair task.
@@ -23,7 +18,7 @@ public class RepairOrder {
     private LocalDate estimatedCompletionDate;
     private State state;
     private DiagnosticReport diagnosticReport;
-    private List<RepairOrderObserver> repairOrderObservers = new ArrayList<>();
+    private List<RepairOrderRegistryObserver> repairOrderRegistryObservers = new ArrayList<>();
 
     /**
      * Creates a new instance of a repair order.
@@ -174,17 +169,11 @@ public class RepairOrder {
         return diagnosticReport;
     }
 
-    public void addRentalObserver(RepairOrderObserver obs) {
-        repairOrderObservers.add(obs);
+    public void addRentalObserver(RepairOrderRegistryObserver obs) {
+        repairOrderRegistryObservers.add(obs);
     }
 
-    public void addRepairOrderObservers(List<RepairOrderObserver> observers) {
-        repairOrderObservers.addAll(observers);
-    }
-
-    public void notifyObservers() {
-        for (RepairOrderObserver obs : repairOrderObservers) {
-            obs.orderUpdated(this.convertToDTO());
-        }
+    public void addRepairOrderObservers(List<RepairOrderRegistryObserver> observers) {
+        repairOrderRegistryObservers.addAll(observers);
     }
 }

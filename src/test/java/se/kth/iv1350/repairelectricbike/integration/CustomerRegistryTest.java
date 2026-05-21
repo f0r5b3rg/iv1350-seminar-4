@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CustomerRegistryTest {
     private CustomerRegistry customerRegistry;
@@ -49,12 +48,13 @@ public class CustomerRegistryTest {
     @Test
     void testSearchCustomerNotFound() {
         String wrongPhoneNumber = "0788888888";
-        try {
+
+        CustomerNotFoundException exception = assertThrows(CustomerNotFoundException.class, () -> {
             customerRegistry.searchCustomer(wrongPhoneNumber);
-            fail("Nonexisting customer was found.");
-        } catch (CustomerNotFoundException e) {
-            assertTrue(e.getMessage().contains(wrongPhoneNumber), "Wrong exception message, does not contain specified phone number: " + e.getMessage());
-        }
+        });
+
+        assertTrue(exception.getMessage().contains(wrongPhoneNumber),
+                "Wrong exception message, does not contain specified phone number: " + exception.getMessage());
     }
 
     @Test

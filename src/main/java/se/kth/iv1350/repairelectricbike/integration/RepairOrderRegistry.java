@@ -12,6 +12,8 @@ public class RepairOrderRegistry {
     private static final RepairOrderRegistry REPAIR_ORDER_REGISTRY = new RepairOrderRegistry();
     private static int repairOrderCount;
     private List<RepairOrderData> repairOrders;
+    private List<RepairOrderRegistryObserver> repairOrderRegistryObservers = new ArrayList<>();
+
 
     /**
      * Creates a new instance representing the repair order registry.
@@ -47,6 +49,7 @@ public class RepairOrderRegistry {
         // If one was not found, add it to the list.
         repairOrders.add(newRepairOrder);
         repairOrderCount += 1;
+        notifyObservers(repairOrderDTO);
     }
 
     /**
@@ -102,6 +105,22 @@ public class RepairOrderRegistry {
         }
         return null;
     }
+
+    /**
+     * Add an observer that will be notified whenever a repair order is updated.
+     *
+     * @param obs The observer to add.
+     */
+    public void addRepairOrderRegistryObserver(RepairOrderRegistryObserver obs) {
+        repairOrderRegistryObservers.add(obs);
+    }
+
+    public void notifyObservers(RepairOrderDTO repairOrderDTO) {
+        for (RepairOrderRegistryObserver obs : repairOrderRegistryObservers) {
+            obs.registryUpdated(repairOrderDTO);
+        }
+    }
+
 
     public void resetForTesting() {
         repairOrders = new ArrayList<>();

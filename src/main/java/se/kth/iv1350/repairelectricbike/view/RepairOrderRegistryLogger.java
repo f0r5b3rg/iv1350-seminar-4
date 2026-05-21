@@ -2,7 +2,7 @@ package se.kth.iv1350.repairelectricbike.view;
 
 import se.kth.iv1350.repairelectricbike.integration.RepairOrderDTO;
 import se.kth.iv1350.repairelectricbike.integration.RepairTaskDTO;
-import se.kth.iv1350.repairelectricbike.model.RepairOrderObserver;
+import se.kth.iv1350.repairelectricbike.integration.RepairOrderRegistryObserver;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,14 +14,14 @@ import java.time.format.FormatStyle;
 /**
  * Logs repair order updates to a text file.
  */
-public class RepairOrderLogger implements RepairOrderObserver {
+public class RepairOrderRegistryLogger implements RepairOrderRegistryObserver {
     private static final String LOG_FILE_NAME = "repairorderupdate-log.txt";
     private PrintWriter logFile;
 
     /**
      * Creates a new instance and opens the log file.
      */
-    public RepairOrderLogger() {
+    public RepairOrderRegistryLogger() {
         try {
             logFile = new PrintWriter(new FileWriter(LOG_FILE_NAME, true), true);
         } catch (IOException ex) {
@@ -36,10 +36,10 @@ public class RepairOrderLogger implements RepairOrderObserver {
      * @param repairOrderDTO The updated repair order.
      */
     @Override
-    public void orderUpdated(RepairOrderDTO repairOrder) {
+    public void registryUpdated(RepairOrderDTO repairOrder) {
 
         StringBuilder toPrint = new StringBuilder(String.format("""
-                        \nRepair order with ID %d has been updated:
+                        \nRepair order with ID %d has been updated in registry:
                             ID: %s
                             Bike to repair:
                                 Brand: %s

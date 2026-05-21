@@ -55,6 +55,7 @@ public class ControllerTest {
 
         controller.createRepairOrder(customer.getPhoneNumber(), bikes.get(1).getSerialNo(), "Problem");
         controller.addRepairTask(repairTaskProbDesc, costToRepair);
+        controller.saveActiveRepairOrder();
 
         int newId = RepairOrderRegistry.getRepairOrderCount() - 1;
 
